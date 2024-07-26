@@ -3,7 +3,6 @@
 /public/storage
 /public/data/*
 /storage/*.key
-/vendor
 /.idea
 /.vagrant
 Homestead.json
@@ -21,7 +20,6 @@ copy_public.sh
 .DS_Store
 **/.DS_Store
 public/error_log
-composer.lock
 .php-cs-fixer.cache
 .phpcs-cache
 /.vscode
