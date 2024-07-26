@@ -34,7 +34,6 @@ use App\Models\Penduduk;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Cookie;
-use App\Http\Controllers\SitemapController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LogViewerController;
 use App\Http\Controllers\Role\RoleController;
@@ -46,6 +45,9 @@ use App\Http\Controllers\BackEnd\EventController;
 use App\Http\Controllers\Setting\SlideController;
 use App\Http\Controllers\BackEnd\ThemesController;
 use App\Http\Controllers\Counter\CounterController;
+use App\Http\Controllers\FrontEnd\SitemapController;
+use App\Http\Controllers\Setting\AplikasiController;
+use App\Http\Controllers\Setting\NavigationController;
 use App\Http\Controllers\Setting\TipePotensiController;
 use App\Http\Controllers\Setting\TipeRegulasiController;
 use App\Http\Controllers\Setting\JenisPenyakitController;
@@ -78,6 +80,7 @@ Route::group(['middleware' => ['installed', 'xss_sanitization']], function () {
          */
         Route::namespace('\App\Http\Controllers\FrontEnd')->group(function () {
             Route::get('/', 'PageController@index')->name('beranda');
+            Route::get('berita-kecamatan', 'PageController@berita')->name('berita-kecamatan');
             Route::get('berita-desa', 'PageController@beritaDesa')->name('berita-desa');
             Route::get('filter-berita-desa', 'PageController@filterFeeds')->name('filter-berita-desa');
 
@@ -174,6 +177,7 @@ Route::group(['middleware' => ['installed', 'xss_sanitization']], function () {
 
             Route::get('faq', 'WebFaqController@index')->name('faq');
         });
+
         Route::get('agenda-kegiatan/{slug}', [EventController::class, 'show'])->name('event.show');
 
         Route::namespace('\App\Http\Controllers\SistemKomplain')->group(function () {
@@ -188,6 +192,14 @@ Route::group(['middleware' => ['installed', 'xss_sanitization']], function () {
                 Route::post('reply/{id}', ['as' => 'sistem-komplain.reply', 'uses' => 'SistemKomplainController@reply']);
                 Route::get('jawabans', ['as' => 'sistem-komplain.jawabans', 'uses' => 'SistemKomplainController@getJawabans']);
             });
+        });
+
+        Route::group(['controller' => SitemapController::class], function () {
+            Route::get('/sitemap.xml', 'index')->name('sitemap');
+            Route::get('/sitemap', function () {
+                return redirect()->route('sitemap');
+            });
+            Route::get('/sitemap/prosedur', 'prosedur');
         });
     });
 
@@ -754,14 +766,6 @@ Route::group(['middleware' => ['installed', 'xss_sanitization']], function () {
         if (Cookie::get(env('COUNTER_COOKIE', 'kd-counter')) == false) {
             Cookie::queue(env('COUNTER_COOKIE', 'kd-counter'), str_random(80), 2628000); // Forever aka 5 years
         }
-    });
-
-    Route::group(['controller' => SitemapController::class], function () {
-        Route::get('/sitemap.xml', 'index')->name('sitemap');
-        Route::get('/sitemap', function () {
-            return redirect()->route('sitemap');
-        });
-        Route::get('/sitemap/prosedur', 'prosedur');
     });
 
     // Semua Desa

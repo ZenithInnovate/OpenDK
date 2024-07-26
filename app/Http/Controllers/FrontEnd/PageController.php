@@ -55,11 +55,22 @@ class PageController extends FrontEndController
         ]);
     }
 
+    public function berita()
+    {
+        Counter::count('beranda');
+
+        return view('pages.berita.berita', [
+            'page_title' => 'Berita Kecamatan',
+            'cari' => null,
+            'artikel' => Artikel::latest()->status()->paginate(config('setting.artikel_kecamatan_perhalaman') ?? 10),
+        ]);
+    }
+
     public function beritaDesa()
     {
-        $this->data = $this->getFeeds();
+        $this->data = getFeeds();
 
-        $feeds = collect($this->data)->sortByDesc('date')->take(config('setting.jumlah_artikel_desa') ?? 30)->paginate(config('setting.artikel_desa_perhalaman') ?? 10);
+        $feeds = collect(($this->data))->sortByDesc('date')->take(config('setting.jumlah_artikel_desa') ?? 30)->paginate(config('setting.artikel_desa_perhalaman') ?? 10);
 
         return view('pages.berita.desa', [
             'page_title' => 'Berita Desa',
@@ -68,36 +79,6 @@ class PageController extends FrontEndController
             'list_desa' => DataDesa::orderBy('desa_id')->get(),
             'feeds' => $feeds,
         ]);
-    }
-
-    private function getFeeds()
-    {
-        $all_desa = DataDesa::websiteUrl()->get()
-        ->map(function ($desa) {
-            return $desa->website_url_feed;
-        })->all();
-
-        $feeds = [];
-        foreach ($all_desa as $desa) {
-            $getFeeds = FeedsFacade::make($desa['website'], 5, true);
-            foreach ($getFeeds->get_items() as $item) {
-                $feeds[] = [
-                    'desa_id' => $desa['desa_id'],
-                    'nama_desa' => $desa['nama'],
-                    'feed_link' => $item->get_feed()->get_permalink(),
-                    'feed_title' => $item->get_feed()->get_title(),
-                    'link' => $item->get_link(),
-                    'date' => \Carbon\Carbon::parse($item->get_date('U')),
-                    'author' => $item->get_author()->get_name() ?? 'Administrator',
-                    'title' => $item->get_title(),
-                    'image' => get_tag_image($item->get_description()),
-                    'description' => strip_tags(substr(str_replace(['&amp;', 'nbsp;', '[...]'], '', $item->get_description()), 0, 250).'[...]'),
-                    'content' => $item->get_content(),
-                ];
-            }
-        }
-
-        return $feeds ?? null;
     }
 
     public function filterFeeds(Request $request)

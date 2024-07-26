@@ -29,22 +29,21 @@
 @endif
 
 @push('scripts')
+    <!-- Include Swiper JS -->
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
     <script>
-        $(document).ready(function() {
-            var swiper = new Swiper("#swiper-slider", {
-                autoplay: {
-                    delay: 4000,
-                },
-                pagination: {
-                    el: '.swiper-pagination',
-                    clickable: true,
-                },
-                loop: true,
-                navigation: {
-                    nextEl: '.swiper-button-next',
-                    prevEl: '.swiper-button-prev',
-                },
-            });
+        var swiper = new Swiper('.my-swiper-container', {
+            loop: true,
+            autoplay: {
+                delay: 5000,
+            },
+            pagination: {
+                el: '.my-swiper-pagination',
+            },
+            navigation: {
+                nextEl: '.my-swiper-button-next',
+                prevEl: '.my-swiper-button-prev',
+            },
         });
     </script>
 @endpush

@@ -39,8 +39,8 @@
     <link href="{{ asset('/css/placeholder-loading.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('/bower_components/bootstrap/dist/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('/bower_components/font-awesome/css/font-awesome.min.css') }}">
-    @stack('css')
     <link rel="stylesheet" href="{{ asset('/css/slider.css') }}">
+    @stack('css')
     <link rel="stylesheet" href="{{ asset('/bower_components/admin-lte/dist/css/AdminLTE.min.css') }}">
     <link rel="stylesheet" href="{{ asset('/bower_components/admin-lte/dist/css/skins/skin-blue.min.css') }}">
     <!-- Link Swiper's CSS -->
