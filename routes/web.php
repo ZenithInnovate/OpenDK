@@ -37,8 +37,6 @@ use Illuminate\Support\Facades\Cookie;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LogViewerController;
 use App\Http\Controllers\Role\RoleController;
-use App\Http\Controllers\Setting\NavigationController;
-use App\Http\Controllers\Setting\AplikasiController;
 use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\Setting\COAController;
 use App\Http\Controllers\BackEnd\EventController;
