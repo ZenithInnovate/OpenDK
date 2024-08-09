@@ -29,7 +29,7 @@
  * @link       https://github.com/OpenSID/opendk
  */
 
-namespace App\Http\Controllers\Page;
+namespace App\Http\Controllers\FrontEnd;
 
 use App\Facades\Counter;
 use App\Models\DataDesa;
