@@ -161,7 +161,6 @@
             }).fail(function(jqXHR, textStatus, errorThrown) {
                 console.error('Request failed: ' + textStatus);
             });
-
         }
 
 
