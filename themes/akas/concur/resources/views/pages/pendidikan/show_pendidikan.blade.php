@@ -1,704 +1,973 @@
 @extends('layouts.app')
+@section('title', $page_description)
+
+@push('styles')
+<style type="text/css">
+    .box-header {
+        padding: 10px;
+        margin-bottom: -5px;
+        border-radius: 5px;
+    }
+
+    .form-horizontal .form-group {
+        margin-bottom: -5px;
+    }
+
+    .form-horizontal .form-group label {
+        padding-top: 5px;
+    }
+</style>
+@endpush
 
 @section('content')
-    <div class="col-md-8">
-        <div class="box box-primary">
-            <div class="box-header with-border">
-                <form class="form-horizontal">
-                    <div class="col-lg-6 col-sm-12">
-                        <div class="form-group">
-                            <label for="list_desa" class="col-sm-4 control-label">Desa</label>
-                            <div class="col-sm-8">
-                                <select class="form-control" id="list_desa">
-                                    <option value="Semua">Semua Desa</option>
-                                    @foreach ($list_desa as $desa)
-                                        <option value="{{ $desa->desa_id }}">{{ $desa->nama }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-6 col-sm-12">
-                        <div class="form-group">
-                            <label for="list_year" class="col-sm-4 control-label">Tahun</label>
-                            <div class="col-sm-8">
-                                <select class="form-control" id="list_year">
-                                    @foreach ($year_list as $year)
-                                        <option value="{{ $year }}">{{ $year }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
+@include('layouts.breadcrumbs', ['title' => $page_description])
 
-        <!-- /.row -->
-
+<div class="section-post">
+    <div class="container">
         <div class="row">
-            <div class="col-md-12">
-                <div class="nav-tabs-custom">
-                    <ul class="nav nav-tabs">
-                        <li class="active"><a href="#jumlah_penduduk" data-toggle="tab">Tingkat Pendidikan</a></li>
-                        <li><a href="#jumlah_putus_sekolah" data-toggle="tab">Jumlah Siswa Putus Sekolah</a></li>
-                        <li><a href="#jumlah_fasilitas" data-toggle="tab">Jumlah Fasilitas PAUD</a></li>
-                        {{-- <li><a href="#jumlah_siswa_fasilitas" data-toggle="tab">Jumlah Siswa dan Fasilitas</a></li> --}}
-                    </ul>
-                    <div class="tab-content">
-                        <div class="active tab-pane" id="jumlah_penduduk">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div id="chart_penduduk_pendidikan" style="width: 100%; overflow: auto; text-align: left;"></div>
+            <!-- page content -->
+            <div class="col-md-8">
+                <div class="page-content">
+                    <!-- ======= Blog Single Section ======= -->
+                    <div class="dinamic-single">
+                        <div class="title">{{ 'Presentase ' . $page_title }}</div>
+                        <div class="box-header">
+                            <form class="form-horizontal">
+                                <div class="col-md-4 col-lg-4 col-sm-12">
+                                    <div class="form-group">
+                                        <label for="list_desa" class="col-sm-4 control-label">Desa</label>
+                                        <div class="col-sm-8">
+                                            <input type="hidden" id="profil_id" value="{{ $profil->id }}">
+                                            <select class="form-control" id="list_desa">
+                                                <option value="Semua">Semua Desa</option>
+                                                @foreach ($list_desa as $desa)
+                                                <option value="{{ $desa->desa_id }}">{{ $desa->nama }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="tab-pane" id="jumlah_putus_sekolah">
-                            <div id="chart_putus_sekolah" style="width:100%; overflow: visible; text-align: left; padding: 10px;;">
-                            </div>
-                        </div>
-                        <div class="tab-pane" id="jumlah_fasilitas">
-                            <div id="chart_fasilitas" style="width:100%;  overflow: visible; text-align: left; padding: 10px;;">
-                            </div>
+                                <div class="col-md-4 col-lg-4 col-sm-12">
+                                    <div class="form-group">
+                                        <label for="list_year" class="col-sm-4 control-label">Tahun</label>
+                                        <div class="col-sm-8">
+                                            <select class="form-control" id="list_year">
+                                                <option value="Semua">Semua</option>
+                                                @foreach ($year_list as $year)
+                                                <option value="{{ $year }}">{{ $year }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
                     </div>
-                    <!-- /.nav-tabs-custom -->
+
+                    <div class="dinamic-single">
+                        <div id="chart_aki_akb" style="width: 100%; overflow: visible; text-align: left;"></div>
+                    </div>
+
+                    <div class="dinamic-single">
+                        <div id="chart_imunisasi" style="width: 100%; overflow: visible; text-align: left;"></div>
+                    </div>
+
+                    <div class="dinamic-single">
+                        <div id="chart_penyakit" style="width: 100%; overflow: visible; text-align: left;"></div>
+                    </div>
+
+                    <div class="dinamic-single">
+                        <div id="chart_sanitasi" style="width: 100%; overflow: visible; text-align: left;"></div>
+                    </div>
+                </div>
+
+                <div class="page-content" id="detail_anggaran">
                 </div>
             </div>
+            <!-- End page content -->
+
+            {{-- Widget --}}
+            @include('layouts.widget')
         </div>
     </div>
+</div>
 @endsection
 
-@include('partials.asset_amcharts')
-@include('partials.asset_select2')
+@include('components.asset_amcharts')
 @push('scripts')
-    <script>
-        $(function() {
+<script>
+    $(document).ready(function() {
+        $('.select2').select2();
+    });
 
-            // Select 2 Kecamatan
-            $('#list_desa').select2();
-            $('#list_year').select2();
+    $(function() {
+        // Select 2 Kecamatan
+        $('#list_desa').select2();
+        $('#list_year').select2();
+        // Change Dashboard when Lsit Desa changed
+        $('#list_desa').on('select2:select', function(e) {
+            var did = e.params.data;
+            var year = $('#list_year').find(":selected").text();
 
-            var did = $('#list_desa').find(":selected").val();
-            var year = $('#list_year').find(":selected").val();
-
-            /*
-             * Initial Chart Dashboard Pendidikan
-             */
-            change_das_pendidikan(did, year);
-            /*
-             * End Initial
-             */
-
-            // Change div das_kependudukan when Kecamatan changed
-
-            $('#list_desa').on('select2:select', function(e) {
-                var did = $('#list_desa').find(":selected").val();
-                var year = $('#list_year').find(":selected").val();
-                change_das_pendidikan(did, year);
-            });
-
-            $('#list_year').on('select2:select', function(e) {
-                var did = $('#list_desa').find(":selected").val();
-                var year = $('#list_year').find(":selected").val();
-
-                change_das_pendidikan(did, year);
-            });
+            change_das_kesehatan(did.id, year);
         });
 
-        function change_das_pendidikan(did, year) {
+        // Change Dashboard when List Year changed
+        $('#list_year').on('select2:select', function(e) {
+            var did = $('#list_desa').find(":selected").val();
+            var year = this.value;
+            change_das_kesehatan(did, year);
+        });
 
-            $.ajax('{!! route('statistik.pendidikan.chart-tingkat-pendidikan') !!}', {
-                data: {
-                    did: did,
-                    y: year
-                }
-            }).done(function(data) {
-                create_chart_tingkat_pendidikan(data['grafik']);
+
+        /*
+            * Initial Dashboard
+            */
+        var did = $('#list_desa').find(":selected").val();
+        var year = $('#list_year').find(":selected").text();
+
+        change_das_kesehatan(did, year);
+        /*
+            * End Initial Dashboard
+            */
+    });
+
+    function change_das_kesehatan(did, year) {
+        $.ajax({
+            url: '{!! route('statistik.kesehatan.chart-akiakb') !!}',
+            method: 'GET', // Atau 'POST' tergantung kebutuhan
+            data: {
+                did: did,
+                y: year
+            },
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // Jika menggunakan POST dan Laravel
+            }
+        }).done(function(data) {
+            create_chart_akiakb(data['grafik']);
+            $('#tabel_aki_akb').html(data['tabel']);
+            $('#tbl_aki_akb').DataTable({
+                "paging": false,
+                "info": false,
+                "searching": false
             });
-
-            $.ajax('{!! route('statistik.pendidikan.chart-putus-sekolah') !!}', {
-                data: {
-                    did: did,
-                    y: year
-                }
-            }).done(function(data) {
-                create_chart_putus_sekolah(data['grafik']);
+            $('#tbl_aki_akb_q1').DataTable({
+                "paging": false,
+                "info": false,
+                "searching": false
             });
-
-            $.ajax('{!! route('statistik.pendidikan.chart-fasilitas-paud') !!}', {
-                data: {
-                    did: did,
-                    y: year
-                }
-            }).done(function(data) {
-                create_chart_fasilitas_sekolah(data['grafik']);
+            $('#tbl_aki_akb_q2').DataTable({
+                "paging": false,
+                "info": false,
+                "searching": false
             });
-        }
+            $('#tbl_aki_akb_q3').DataTable({
+                "paging": false,
+                "info": false,
+                "searching": false
+            });
+            $('#tbl_aki_akb_q4').DataTable({
+                "paging": false,
+                "info": false,
+                "searching": false
+            });
+        }).fail(function(jqXHR, textStatus, errorThrown) {
+            console.error('Request failed: ' + textStatus);
+        });
 
+        $.ajax({
+            url: '{!! route('statistik.kesehatan.chart-imunisasi') !!}',
+            method: 'GET', // Atau 'POST' tergantung kebutuhan
+            data: {
+                did: did,
+                y: year
+            },
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // Jika menggunakan POST dan Laravel
+            }
+        }).done(function(data) {
+            create_chart_imunisasi(data['grafik']);
+            $('#tabel_imunisasi').html(data['tabel']);
+            $('#tbl_imunisasi').DataTable({
+                "paging": false,
+                "info": false,
+                "searching": false
+            });
+            $('#tbl_imunisasi_q1').DataTable({
+                "paging": false,
+                "info": false,
+                "searching": false
+            });
+            $('#tbl_imunisasi_q2').DataTable({
+                "paging": false,
+                "info": false,
+                "searching": false
+            });
+            $('#tbl_imunisasi_q3').DataTable({
+                "paging": false,
+                "info": false,
+                "searching": false
+            });
+            $('#tbl_imunisasi_q4').DataTable({
+                "paging": false,
+                "info": false,
+                "searching": false
+            });
+        }).fail(function(jqXHR, textStatus, errorThrown) {
+            console.error('Request failed: ' + textStatus);
+        });
 
-        function create_chart_tingkat_pendidikan(data) {
-            /**
-             * Define data for each year
-             */
+        $.ajax({
+            url: '{!! route('statistik.kesehatan.chart-penyakit') !!}',
+            method: 'GET', // Atau 'POST' tergantung kebutuhan
+            data: {
+                did: did,
+                y: year
+            },
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // Jika menggunakan POST dan Laravel
+            }
+        }).done(function(data) {
+            if (year == 'Semua') {
+                create_chart_penyakit(data['grafik']);
+            } else {
+                create_chart_penyakit2(data['grafik']);
+            }
 
-            /**
-             * Create the chart
-             */
-            AmCharts.addInitHandler(function(chart_penduduk_pendidikan) {
-                // set base values
-                var categoryWidth = 120;
+            $('#tabel_penyakit').html(data['tabel']);
+        }).fail(function(jqXHR, textStatus, errorThrown) {
+            console.error('Request failed: ' + textStatus);
+        });
 
-                var did = $('#list_desa').find(":selected").val();
-                var year = $('#list_year').find(":selected").val();
-                if (did == "Semua" && year == "Semua") {
-                    chart_penduduk_pendidikan.categoryAxis.title = "Tahun";
-                    categoryWidth = 250;
-                }
-                if (did != "Semua" && year == "Semua") {
-                    chart_penduduk_pendidikan.categoryAxis.title = "Tahun";
-                    categoryWidth = 250;
-                }
-                if (did == "Semua" && year != "Semua") {
-                    chart_penduduk_pendidikan.categoryAxis.title = "Desa";
-                    categoryWidth = 190;
-                }
-                if (did != "Semua" && year != "Semua") {
-                    chart_penduduk_pendidikan.categoryAxis.title = "Semester";
-                    categoryWidth = 280;
-                }
-                // calculate bottom margi95based on number of data points
-                var chartHeight = categoryWidth * chart_penduduk_pendidikan.dataProvider.length;
+        $.ajax({
+            url: '{!! route('statistik.kesehatan.chart-sanitasi') !!}',
+            method: 'GET', // Atau 'POST' tergantung kebutuhan
+            data: {
+                did: did,
+                y: year
+            },
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // Jika menggunakan POST dan Laravel
+            }
+        }).done(function(data) {
+            create_chart_sanitasi(data['grafik']);
+            $('#tabel_sanitasi').html(data['tabel']);
+            $('#tbl_toilet').DataTable({
+                "paging": false,
+                "info": false,
+                "searching": false
+            });
+            $('#tbl_toilet_q1').DataTable({
+                "paging": false,
+                "info": false,
+                "searching": false
+            });
+            $('#tbl_toilet_q2').DataTable({
+                "paging": false,
+                "info": false,
+                "searching": false
+            });
+            $('#tbl_toilet_q3').DataTable({
+                "paging": false,
+                "info": false,
+                "searching": false
+            });
+            $('#tbl_toilet_q4').DataTable({
+                "paging": false,
+                "info": false,
+                "searching": false
+            });
+        }).fail(function(jqXHR, textStatus, errorThrown) {
+            console.error('Request failed: ' + textStatus);
+        });
+    }
 
-                // set the value
-                chart_penduduk_pendidikan.div.style.height = chartHeight + 'px';
+    function create_chart_akiakb(data) {
 
-                //method to handle removing/adding columns when the marker is toggled
-                function handleCustomMarkerToggle(legendEvent) {
-                    var dataProvider = legendEvent.chart.dataProvider;
-                    var itemIndex; //store the location of the removed item
+        AmCharts.addInitHandler(function(chart_aki_akb) {
+            // set base values
+            var categoryWidth = 145;
 
-                    //Set a custom flag so that the dataUpdated event doesn't fire infinitely, in case you have
-                    //a dataUpdated event of your own
-                    legendEvent.chart.toggleLegend = true;
-                    // The following toggles the markers on and off.
-                    // The only way to "hide" a column and reserved space on the axis is to remove it
-                    // completely from the dataProvider. You'll want to use the hidden flag as a means
-                    // to store/retrieve the object as needed and then sort it back to its original location
-                    // on the chart using the dataIdx property in the init handler
-                    if (undefined !== legendEvent.dataItem.hidden && legendEvent.dataItem.hidden) {
-                        legendEvent.dataItem.hidden = false;
-                        dataProvider.push(legendEvent.dataItem.storedObj);
-                        legendEvent.dataItem.storedObj = undefined;
-                        //re-sort the array by dataIdx so it comes back in the right order.
-                        dataProvider.sort(function(lhs, rhs) {
-                            return lhs.dataIdx - rhs.dataIdx;
-                        });
-                    } else {
-                        // toggle the marker off
-                        legendEvent.dataItem.hidden = true;
-                        //get the index of the data item from the data provider, using the
-                        //dataIdx property.
-                        for (var i = 0; i < dataProvider.length; ++i) {
-                            if (dataProvider[i].dataIdx === legendEvent.dataItem.dataIdx) {
-                                itemIndex = i;
-                                break;
-                            }
+            // calculate bottom margin based on number of data points
+            var chartHeight = categoryWidth * chart_aki_akb.dataProvider.length;
+
+            // set the value
+            chart_aki_akb.div.style.height = chartHeight + 'px';
+
+            //method to handle removing/adding columns when the marker is toggled
+            function handleCustomMarkerToggle(legendEvent) {
+                var dataProvider = legendEvent.chart.dataProvider;
+                var itemIndex; //store the location of the removed item
+
+                //Set a custom flag so that the dataUpdated event doesn't fire infinitely, in case you have
+                //a dataUpdated event of your own
+                legendEvent.chart.toggleLegend = true;
+                // The following toggles the markers on and off.
+                // The only way to "hide" a column and reserved space on the axis is to remove it
+                // completely from the dataProvider. You'll want to use the hidden flag as a means
+                // to store/retrieve the object as needed and then sort it back to its original location
+                // on the chart using the dataIdx property in the init handler
+                if (undefined !== legendEvent.dataItem.hidden && legendEvent.dataItem.hidden) {
+                    legendEvent.dataItem.hidden = false;
+                    dataProvider.push(legendEvent.dataItem.storedObj);
+                    legendEvent.dataItem.storedObj = undefined;
+                    //re-sort the array by dataIdx so it comes back in the right order.
+                    dataProvider.sort(function(lhs, rhs) {
+                        return lhs.dataIdx - rhs.dataIdx;
+                    });
+                } else {
+                    // toggle the marker off
+                    legendEvent.dataItem.hidden = true;
+                    //get the index of the data item from the data provider, using the
+                    //dataIdx property.
+                    for (var i = 0; i < dataProvider.length; ++i) {
+                        if (dataProvider[i].dataIdx === legendEvent.dataItem.dataIdx) {
+                            itemIndex = i;
+                            break;
                         }
-                        //store the object into the dataItem
-                        legendEvent.dataItem.storedObj = dataProvider[itemIndex];
-                        //remove it
-                        dataProvider.splice(itemIndex, 1);
                     }
-                    legendEvent.chart.validateData(); //redraw the chart
+                    //store the object into the dataItem
+                    legendEvent.dataItem.storedObj = dataProvider[itemIndex];
+                    //remove it
+                    dataProvider.splice(itemIndex, 1);
                 }
+                legendEvent.chart.validateData(); //redraw the chart
+            }
 
-                //check if legend is enabled and custom generateFromData property
-                //is set before running
-                if (!chart_penduduk_pendidikan.legend || !chart_penduduk_pendidikan.legend.enabled || !chart_penduduk_pendidikan.legend.generateFromData) {
-                    return;
+            //check if legend is enabled and custom generateFromData property
+            //is set before running
+            if (!chart_aki_akb.legend || !chart_aki_akb.legend.enabled || !chart_aki_akb.legend.generateFromData) {
+                return;
+            }
+
+            var categoryField = chart_aki_akb.categoryField;
+            var colorField = chart_aki_akb.graphs[0].lineColorField || chart_aki_akb.graphs[0].fillColorsField || chart_aki_akb.graphs[0].colorField || chart_aki_akb.graphs[0].fillColors;
+            var legendData = chart_aki_akb.dataProvider.map(function(data, idx) {
+                var markerData = {
+                    "title": data[categoryField] + ": " + data[chart_aki_akb.graphs[0].valueField],
+                    "color": data[colorField],
+                    "dataIdx": idx //store a copy of the index of where this appears in the dataProvider array for ease of removal/re-insertion
+                };
+                if (!markerData.color) {
+                    markerData.color = chart_aki_akb.graphs[0].lineColor;
                 }
-
-                var categoryField = chart_penduduk_pendidikan.categoryField;
-                var colorField = chart_penduduk_pendidikan.graphs[0].lineColorField || chart_penduduk_pendidikan.graphs[0].fillColorsField || chart_penduduk_pendidikan.graphs[0].colorField;
-                var legendData = chart_penduduk_pendidikan.dataProvider.map(function(data, idx) {
-                    var markerData = {
-                        "title": data[categoryField] + ": " + data[chart_penduduk_pendidikan.graphs[0].valueField],
-                        "color": data[colorField],
-                        "dataIdx": idx //store a copy of the index of where this appears in the dataProvider array for ease of removal/re-insertion
-                    };
-                    if (!markerData.color) {
-                        markerData.color = chart_penduduk_pendidikan.graphs[0].lineColor;
-                    }
-                    data.dataIdx = idx; //also store it in the dataProvider object itself
-                    return markerData;
-                });
-
-                chart_penduduk_pendidikan.legend.data = legendData;
-
-                //make the markers toggleable
-                chart_penduduk_pendidikan.legend.switchable = true;
-                chart_penduduk_pendidikan.legend.addListener("clickMarker", handleCustomMarkerToggle);
-
-            }, ['serial']);
-
-            var chart_penduduk_pendidikan = AmCharts.makeChart("chart_penduduk_pendidikan", {
-                "theme": "light",
-                "type": "serial",
-                "hideCredits": true,
-                "rotate": true,
-                "startDuration": 1,
-                "dataProvider": data,
-                "graphs": [{
-                    "balloonText": "[[title]]: <b>[[value]]</b>",
-                    //"fillColorsField": "color",
-                    //"fillColors" : "#86abf8",
-                    "fillAlphas": 1,
-                    "lineAlpha": 0.1,
-                    "type": "column",
-                    "title": "Tidak Tamat Sekolah",
-                    "valueField": "tidak_tamat_sekolah",
-                    "labelText": "[[value]]",
-                    "labelPosition": "middle"
-                }, {
-                    "balloonText": "[[title]]: <b>[[value]]</b>",
-                    //"fillColorsField": "color",
-                    //"fillColors" : "#6e9af7",
-                    "fillAlphas": 1,
-                    "lineAlpha": 0.1,
-                    "type": "column",
-                    "title": "Tamat SD",
-                    "valueField": "tamat_sd",
-                    "labelText": "[[value]]",
-                    "labelPosition": "middle"
-                }, {
-                    "balloonText": "[[title]]: <b>[[value]]</b>",
-                    //"fillColorsField": "color",
-                    //"fillColors" : "#5689f5",
-                    "fillAlphas": 1,
-                    "lineAlpha": 0.1,
-                    "type": "column",
-                    "title": "Tamat SMP",
-                    "valueField": "tamat_smp",
-                    "labelText": "[[value]]",
-                    "labelPosition": "middle"
-                }, {
-                    "balloonText": "[[title]]: <b>[[value]]</b>",
-                    //"fillColorsField": "color",
-                    //"fillColors" : "#3e78f4",
-                    "fillAlphas": 1,
-                    "lineAlpha": 0.1,
-                    "type": "column",
-                    "title": "Tamat SMA",
-                    "valueField": "tamat_sma",
-                    "labelText": "[[value]]",
-                    "labelPosition": "middle"
-                }, {
-                    "balloonText": "[[title]]: <b>[[value]]</b>",
-                    //"fillColorsField": "color",
-                    //"fillColors" : "#2667f3",
-                    "fillAlphas": 1,
-                    "lineAlpha": 0.1,
-                    "type": "column",
-                    "title": "Tamat Diploma/Sederajat",
-                    "valueField": "tamat_diploma_sederajat",
-                    "labelText": "[[value]]",
-                    "labelPosition": "middle"
-                }],
-                "depth3D": 5,
-                "angle": 15,
-                /*"chartCursor": {
-                    "categoryBalloonEnabled": false,
-                    "cursorAlpha": 0,
-                    "zoomable": false
-                },*/
-                "categoryField": "year",
-                "categoryAxis": {
-                    "gridPosition": "start",
-                },
-                "export": {
-                    "enabled": true,
-                    "pageOrigin": false,
-                    "fileName": "Jumlah Penduduk Berdasarkan Tingkat Pendidikan",
-                },
-                "legend": {
-                    /*"enabled": true,
-                    "useGraphSettings": true*/
-                    "enabled": true
-                },
-                "marginTop": 50,
-                "allLabels": [{
-                    "text": "Jumlah Penduduk Berdasarkan Tingkat Pendidikan",
-                    "align": "center",
-                    "bold": true,
-                    "size": 20,
-                    "y": 10
-                }],
-                "valueAxes": [{
-                    "baseValue": 0,
-                    "minimum": 0,
-                    "title": "Jumlah Penduduk"
-                }],
-                "numberFormatter": {
-                    "precision": -1,
-                    "decimalSeparator": ",",
-                    "thousandsSeparator": "."
-                }
+                data.dataIdx = idx; //also store it in the dataProvider object itself
+                return markerData;
             });
-        }
 
-        //Create Chart Jumlah Siswa
-        function create_chart_putus_sekolah(data) {
-            AmCharts.addInitHandler(function(chart_putus_sekolah) {
-                // set base values
-                var categoryWidth = 250;
+            chart_aki_akb.legend.data = legendData;
 
-                var did = $('#list_desa').find(":selected").val();
-                var year = $('#list_year').find(":selected").val();
-                if (did == "Semua" && year == "Semua") {
-                    chart_putus_sekolah.categoryAxis.title = "Tahun";
-                    categoryWidth = 350;
+            //make the markers toggleable
+            chart_aki_akb.legend.switchable = true;
+            chart_aki_akb.legend.addListener("clickMarker", handleCustomMarkerToggle);
+
+        }, ['serial']);
+
+        var chart_aki_akb = AmCharts.makeChart("chart_aki_akb", {
+            "type": "serial",
+            "theme": "light",
+            "categoryField": "year",
+            "hideCredits": true,
+            "rotate": true,
+            "legend": {
+                "enabled": true,
+            },
+            "startDuration": 1,
+            "categoryAxis": {
+                "gridPosition": "start",
+                //"position": "left",
+                "title": "Kuartal"
+            },
+            //"trendLines": [],
+            "graphs": [{
+                    "balloonText": "AKI:[[value]]",
+                    "fillAlphas": 0.8,
+                    //"fillColors": "#07749f",
+                    "id": "AmGraph-1",
+                    "lineAlpha": 0.2,
+                    "title": "AKI",
+                    "type": "column",
+                    "valueField": "aki",
+                    "labelText": "[[value]]",
+                    "labelPosition": "middle"
+                },
+                {
+                    "balloonText": "AKB:[[value]]",
+                    "fillAlphas": 0.8,
+                    //"fillColors": "#025777",
+                    "id": "AmGraph-2",
+                    "lineAlpha": 0.2,
+                    "title": "AKB",
+                    "type": "column",
+                    "valueField": "akb",
+                    "labelText": "[[value]]",
+                    "labelPosition": "middle"
                 }
-                if (did == "Semua" && year != "Semua") {
-                    chart_putus_sekolah.categoryAxis.title = "Desa";
-                    categoryWidth = 350;
-                }
-                if (did != "Semua" && year == "Semua") {
-                    chart_putus_sekolah.categoryAxis.title = "Desa";
-                    categoryWidth = 350;
-                }
-                if (did != "Semua" && year != "Semua") {
-                    chart_putus_sekolah.categoryAxis.title = "Semester";
-                    categoryWidth = 390;
-                }
-                // calculate bottom margi95based on number of data points
-                var chartHeight = categoryWidth * chart_putus_sekolah.dataProvider.length;
+            ],
+            "depth3D": 5,
+            "angle": 15,
+            "guides": [],
+            "marginTop": 50,
+            "valueAxes": [{
+                "position": "left",
+                "title": "Jumlah Angka Kematian",
+                "baseValue": 0,
+                "minimum": 0
+            }],
+            "allLabels": [{
+                "text": "Jumlah Angka Kematian Ibu & Bayi",
+                "align": "center",
+                "bold": true,
+                "size": 20,
+                "y": 10
+            }],
+            "balloon": {},
+            "titles": [],
+            "dataProvider": data,
+            "export": {
+                "enabled": true,
+                "pageOrigin": false,
+                "fileName": "Jumlah Angka Kematian Ibu & Bayi",
+            },
+            "numberFormatter": {
+                "precision": -1,
+                "decimalSeparator": ",",
+                "thousandsSeparator": "."
+            }
+        });
+    }
 
-                // set the value
-                chart_putus_sekolah.div.style.height = chartHeight + 'px';
+    function create_chart_imunisasi(data) {
+        AmCharts.addInitHandler(function(chart_imunisasi) {
+            // set base values
+            var categoryWidth = 95;
 
-                //method to handle removing/adding columns when the marker is toggled
-                function handleCustomMarkerToggle(legendEvent) {
-                    var dataProvider = legendEvent.chart.dataProvider;
-                    var itemIndex; //store the location of the removed item
+            // calculate bottom margin based on number of data points
+            var chartHeight = categoryWidth * chart_imunisasi.dataProvider.length;
 
-                    //Set a custom flag so that the dataUpdated event doesn't fire infinitely, in case you have
-                    //a dataUpdated event of your own
-                    legendEvent.chart.toggleLegend = true;
-                    // The following toggles the markers on and off.
-                    // The only way to "hide" a column and reserved space on the axis is to remove it
-                    // completely from the dataProvider. You'll want to use the hidden flag as a means
-                    // to store/retrieve the object as needed and then sort it back to its original location
-                    // on the chart using the dataIdx property in the init handler
-                    if (undefined !== legendEvent.dataItem.hidden && legendEvent.dataItem.hidden) {
-                        legendEvent.dataItem.hidden = false;
-                        dataProvider.push(legendEvent.dataItem.storedObj);
-                        legendEvent.dataItem.storedObj = undefined;
-                        //re-sort the array by dataIdx so it comes back in the right order.
-                        dataProvider.sort(function(lhs, rhs) {
-                            return lhs.dataIdx - rhs.dataIdx;
-                        });
-                    } else {
-                        // toggle the marker off
-                        legendEvent.dataItem.hidden = true;
-                        //get the index of the data item from the data provider, using the
-                        //dataIdx property.
-                        for (var i = 0; i < dataProvider.length; ++i) {
-                            if (dataProvider[i].dataIdx === legendEvent.dataItem.dataIdx) {
-                                itemIndex = i;
-                                break;
-                            }
+            // set the value
+            chart_imunisasi.div.style.height = chartHeight + 'px';
+
+            //method to handle removing/adding columns when the marker is toggled
+            function handleCustomMarkerToggle(legendEvent) {
+                var dataProvider = legendEvent.chart.dataProvider;
+                var itemIndex; //store the location of the removed item
+
+                //Set a custom flag so that the dataUpdated event doesn't fire infinitely, in case you have
+                //a dataUpdated event of your own
+                legendEvent.chart.toggleLegend = true;
+                // The following toggles the markers on and off.
+                // The only way to "hide" a column and reserved space on the axis is to remove it
+                // completely from the dataProvider. You'll want to use the hidden flag as a means
+                // to store/retrieve the object as needed and then sort it back to its original location
+                // on the chart using the dataIdx property in the init handler
+                if (undefined !== legendEvent.dataItem.hidden && legendEvent.dataItem.hidden) {
+                    legendEvent.dataItem.hidden = false;
+                    dataProvider.push(legendEvent.dataItem.storedObj);
+                    legendEvent.dataItem.storedObj = undefined;
+                    //re-sort the array by dataIdx so it comes back in the right order.
+                    dataProvider.sort(function(lhs, rhs) {
+                        return lhs.dataIdx - rhs.dataIdx;
+                    });
+                } else {
+                    // toggle the marker off
+                    legendEvent.dataItem.hidden = true;
+                    //get the index of the data item from the data provider, using the
+                    //dataIdx property.
+                    for (var i = 0; i < dataProvider.length; ++i) {
+                        if (dataProvider[i].dataIdx === legendEvent.dataItem.dataIdx) {
+                            itemIndex = i;
+                            break;
                         }
-                        //store the object into the dataItem
-                        legendEvent.dataItem.storedObj = dataProvider[itemIndex];
-                        //remove it
-                        dataProvider.splice(itemIndex, 1);
                     }
-                    legendEvent.chart.validateData(); //redraw the chart
+                    //store the object into the dataItem
+                    legendEvent.dataItem.storedObj = dataProvider[itemIndex];
+                    //remove it
+                    dataProvider.splice(itemIndex, 1);
                 }
+                legendEvent.chart.validateData(); //redraw the chart
+            }
 
-                //check if legend is enabled and custom generateFromData property
-                //is set before running
-                if (!chart_putus_sekolah.legend || !chart_putus_sekolah.legend.enabled || !chart_putus_sekolah.legend.generateFromData) {
-                    return;
+            //check if legend is enabled and custom generateFromData property
+            //is set before running
+            if (!chart_imunisasi.legend || !chart_imunisasi.legend.enabled || !chart_imunisasi.legend.generateFromData) {
+                return;
+            }
+
+            var categoryField = chart_imunisasi.categoryField;
+            var colorField = chart_imunisasi.graphs[0].lineColorField || chart_imunisasi.graphs[0].fillColorsField || chart_imunisasi.graphs[0].colorField || chart_imunisasi.graphs[0].fillColors;
+            var legendData = chart_imunisasi.dataProvider.map(function(data, idx) {
+                var markerData = {
+                    "title": data[categoryField] + ": " + data[chart_imunisasi.graphs[0].valueField],
+                    "color": data[colorField],
+                    "dataIdx": idx //store a copy of the index of where this appears in the dataProvider array for ease of removal/re-insertion
+                };
+                if (!markerData.color) {
+                    markerData.color = chart_imunisasi.graphs[0].lineColor;
                 }
-
-                var categoryField = chart_putus_sekolah.categoryField;
-                var colorField = chart_putus_sekolah.graphs[0].lineColorField || chart_putus_sekolah.graphs[0].fillColorsField || chart_putus_sekolah.graphs[0].colorField;
-                var legendData = chart_putus_sekolah.dataProvider.map(function(data, idx) {
-                    var markerData = {
-                        "title": data[categoryField] + ": " + data[chart_putus_sekolah.graphs[0].valueField],
-                        "color": data[colorField],
-                        "dataIdx": idx //store a copy of the index of where this appears in the dataProvider array for ease of removal/re-insertion
-                    };
-                    if (!markerData.color) {
-                        markerData.color = chart_putus_sekolah.graphs[0].lineColor;
-                    }
-                    data.dataIdx = idx; //also store it in the dataProvider object itself
-                    return markerData;
-                });
-
-                chart_putus_sekolah.legend.data = legendData;
-
-                //make the markers toggleable
-                chart_putus_sekolah.legend.switchable = true;
-                chart_putus_sekolah.legend.addListener("clickMarker", handleCustomMarkerToggle);
-
-            }, ['serial']);
-
-            // Chart Perbandingan Jumlah Siswa berdasarkan TIngkat Pendidikan
-            var chart_putus_sekolah = AmCharts.makeChart("chart_putus_sekolah", {
-                "theme": "light",
-                "type": "serial",
-                "hideCredits": true,
-                "rotate": true,
-                "startDuration": 1,
-                "dataProvider": data,
-                "graphs": [{
-                        "balloonText": "[[title]]: <b>[[value]]</b>",
-                        //"fillColorsField": "color",
-                        "fillColors": "#937ff3",
-                        "fillAlphas": 1,
-                        "lineAlpha": 0.1,
-                        "type": "column",
-                        "title": "Siswa PAUD",
-                        "valueField": "siswa_paud",
-                        "labelText": "[[value]]",
-                        "labelPosition": "middle"
-                    }, {
-                        "balloonText": "[[title]]: <b>[[value]]</b>",
-                        //"fillColorsField": "color",
-                        "fillColors": "#2d198d",
-                        "fillAlphas": 1,
-                        "lineAlpha": 0.1,
-                        "type": "column",
-                        "title": "Anak Usia PAUD",
-                        "valueField": "anak_usia_paud",
-                        "labelText": "[[value]]",
-                        "labelPosition": "middle"
-                    },
-                    {
-                        "balloonText": "[[title]]: <b>[[value]]</b>",
-                        //"fillColorsField": "color",
-                        "fillColors": "#eb6a7c",
-                        "fillAlphas": 1,
-                        "lineAlpha": 0.1,
-                        "type": "column",
-                        "title": "Siswa SD",
-                        "valueField": "siswa_sd",
-                        "labelText": "[[value]]",
-                        "labelPosition": "middle"
-                    },
-                    {
-                        "balloonText": "[[title]]: <b>[[value]]</b>",
-                        //"fillColorsField": "color",
-                        "fillColors": "#b2061e",
-                        "fillAlphas": 1,
-                        "lineAlpha": 0.1,
-                        "type": "column",
-                        "title": "Anak Usia SD",
-                        "valueField": "anak_usia_sd",
-                        "labelText": "[[value]]",
-                        "labelPosition": "middle"
-                    }, {
-                        "balloonText": "[[title]]: <b>[[value]]</b>",
-                        //"fillColorsField": "color",
-                        "fillColors": "#77cc74",
-                        "fillAlphas": 1,
-                        "lineAlpha": 0.1,
-                        "type": "column",
-                        "title": "Siswa SMP",
-                        "valueField": "siswa_smp",
-                        "labelText": "[[value]]",
-                        "labelPosition": "middle"
-                    },
-                    {
-                        "balloonText": "[[title]]: <b>[[value]]</b>",
-                        //"fillColorsField": "color",
-                        "fillColors": "#178813",
-                        "fillAlphas": 1,
-                        "lineAlpha": 0.1,
-                        "type": "column",
-                        "title": "Anak Usia SMP",
-                        "valueField": "anak_usia_smp",
-                        "labelText": "[[value]]",
-                        "labelPosition": "middle"
-                    }, {
-                        "balloonText": "[[title]]: <b>[[value]]</b>",
-                        //"fillColorsField": "color",
-                        "fillColors": "#c5c4c6",
-                        "fillAlphas": 1,
-                        "lineAlpha": 0.1,
-                        "type": "column",
-                        "title": "Siswa SMA",
-                        "valueField": "siswa_sma",
-                        "labelText": "[[value]]",
-                        "labelPosition": "middle"
-                    },
-                    {
-                        "balloonText": "[[title]]: <b>[[value]]</b>",
-                        //"fillColorsField": "color",
-                        "fillColors": "#7f7d80",
-                        "fillAlphas": 1,
-                        "lineAlpha": 0.1,
-                        "type": "column",
-                        "title": "Anak Usia SMA",
-                        "valueField": "anak_usia_sma",
-                        "labelText": "[[value]]",
-                        "labelPosition": "middle"
-                    }
-                ],
-                "depth3D": 5,
-                "angle": 15,
-                /*"chartCursor": {
-                    "categoryBalloonEnabled": false,
-                    "cursorAlpha": 0,
-                    "zoomable": false
-                },*/
-                "categoryField": "year",
-                "categoryAxis": {
-                    "gridPosition": "start",
-                },
-                "export": {
-                    "enabled": true,
-                    "pageorigin": false,
-                    "fileName": "Jumlah Siswa Putus Sekolah",
-                },
-                "legend": {
-                    "enabled": true,
-                    "useGraphSettings": true
-                },
-                "allLabels": [{
-                    "text": "Jumlah Siswa Putus Sekolah",
-                    "align": "center",
-                    "bold": true,
-                    "size": 20,
-                    "y": 10
-                }],
-                "marginTop": 50,
-                "valueAxes": [{
-                    "baseValue": 0,
-                    "minimum": 0
-                }],
-                "numberFormatter": {
-                    "precision": -1,
-                    "decimalSeparator": ",",
-                    "thousandsSeparator": "."
-                }
+                data.dataIdx = idx; //also store it in the dataProvider object itself
+                return markerData;
             });
-        }
 
-        //Create Chart Jumlah Anak TIdak Sekolah
+            chart_imunisasi.legend.data = legendData;
 
-        function create_chart_fasilitas_sekolah(data) {
-            AmCharts.addInitHandler(function(chart_fasilitas) {
-                // set base values
-                var categoryWidth = 50;
+            //make the markers toggleable
+            chart_imunisasi.legend.switchable = true;
+            chart_imunisasi.legend.addListener("clickMarker", handleCustomMarkerToggle);
 
-                var did = $('#list_desa').find(":selected").val();
-                var year = $('#list_year').find(":selected").val();
-                if (did == "Semua" && year == "Semua") {
-                    chart_fasilitas.categoryAxis.title = "Tahun";
-                    categoryWidth = 150;
+        }, ['serial']);
+
+        var chart_imunisasi = AmCharts.makeChart("chart_imunisasi", {
+            "type": "serial",
+            "theme": "light",
+            "categoryField": "year",
+            "hideCredits": true,
+            "rotate": true,
+            "legend": {
+                "enabled": true,
+            },
+            "startDuration": 1,
+            "categoryAxis": {
+                "gridPosition": "start",
+                //"position": "left",
+                "title": "Kuartal"
+            },
+            //"trendLines": [],
+            "graphs": [{
+                "balloonText": "Cakupan Imunisasi:[[value]]",
+                "fillAlphas": 0.8,
+                //"fillColors": "#03749f",
+                "id": "AmGraph-1",
+                "lineAlpha": 0.2,
+                "title": "Cakupan Imunisasi",
+                "type": "column",
+                "valueField": "cakupan_imunisasi",
+                "labelText": "[[value]]",
+                "labelPosition": "middle"
+            }, ],
+            "depth3D": 5,
+            "angle": 15,
+            "guides": [],
+            "marginTop": 50,
+            "valueAxes": [{
+                "position": "left",
+                "title": "Jumlah Cakupan Imunisasi (%)",
+                "baseValue": 0,
+                "minimum": 0
+            }],
+            "allLabels": [{
+                "text": "Jumlah Persentase Cakupan Imunisasi",
+                "align": "center",
+                "bold": true,
+                "size": 20,
+                "y": 10
+            }],
+            "balloon": {},
+            "titles": [],
+            "dataProvider": data,
+            "export": {
+                "enabled": true,
+                "pageOrigin": false,
+                "fileName": "Jumlah Persentase Cakupan Imunisasi",
+            },
+            "numberFormatter": {
+                "precision": -1,
+                "decimalSeparator": ",",
+                "thousandsSeparator": "."
+            }
+        });
+    }
+
+    function create_chart_penyakit(data) {
+
+        var chart_penyakit = AmCharts.makeChart("chart_penyakit", {
+            "type": "serial",
+            "theme": "light",
+            "categoryField": "year",
+            "hideCredits": true,
+            "rotate": true,
+            "legend": {
+                "enabled": true,
+            },
+            "startDuration": 1,
+            "categoryAxis": {
+                "gridPosition": "start",
+                //"position": "left",
+                "title": "Kuartal"
+            },
+            //"trendLines": [],
+            "graphs": [{
+                "balloonText": "Jumlah Penderita:[[value]]",
+                "fillAlphas": 0.8,
+                //"fillColors": "#03749f",
+                "id": "AmGraph-1",
+                "lineAlpha": 0.2,
+                "title": "Jumlah Penderita",
+                "type": "column",
+                "valueField": "jumlah",
+                "labelText": "[[value]]",
+                "labelPosition": "middle"
+            }, ],
+            "depth3D": 5,
+            "angle": 15,
+            "guides": [],
+            "marginTop": 50,
+            "valueAxes": [{
+                "position": "left",
+                "title": "Jumlah",
+                "baseValue": 0,
+                "minimum": 0
+            }],
+            "allLabels": [{
+                "text": "Jumlah Epidemi Penyakit",
+                "align": "center",
+                "bold": true,
+                "size": 20,
+                "y": 10
+            }],
+            "balloon": {},
+            "titles": [],
+            "dataProvider": data,
+            "export": {
+                "enabled": true,
+                "pageOrigin": false,
+                "fileName": "Jumlah Toilet & Sanitasi",
+            },
+            "numberFormatter": {
+                "precision": -1,
+                "decimalSeparator": ",",
+                "thousandsSeparator": "."
+            }
+        });
+    }
+
+    function create_chart_penyakit2(data) {
+        AmCharts.addInitHandler(function(chart_penyakit2) {
+            // set base values
+            var categoryWidth = 145;
+
+            // calculate bottom margin based on number of data points
+            var chartHeight = categoryWidth * chart_penyakit2.dataProvider.length;
+
+            // set the value
+            chart_penyakit2.div.style.height = chartHeight + 'px';
+
+            //method to handle removing/adding columns when the marker is toggled
+            function handleCustomMarkerToggle(legendEvent) {
+                var dataProvider = legendEvent.chart.dataProvider;
+                var itemIndex; //store the location of the removed item
+
+                //Set a custom flag so that the dataUpdated event doesn't fire infinitely, in case you have
+                //a dataUpdated event of your own
+                legendEvent.chart.toggleLegend = true;
+                // The following toggles the markers on and off.
+                // The only way to "hide" a column and reserved space on the axis is to remove it
+                // completely from the dataProvider. You'll want to use the hidden flag as a means
+                // to store/retrieve the object as needed and then sort it back to its original location
+                // on the chart using the dataIdx property in the init handler
+                if (undefined !== legendEvent.dataItem.hidden && legendEvent.dataItem.hidden) {
+                    legendEvent.dataItem.hidden = false;
+                    dataProvider.push(legendEvent.dataItem.storedObj);
+                    legendEvent.dataItem.storedObj = undefined;
+                    //re-sort the array by dataIdx so it comes back in the right order.
+                    dataProvider.sort(function(lhs, rhs) {
+                        return lhs.dataIdx - rhs.dataIdx;
+                    });
+                } else {
+                    // toggle the marker off
+                    legendEvent.dataItem.hidden = true;
+                    //get the index of the data item from the data provider, using the
+                    //dataIdx property.
+                    for (var i = 0; i < dataProvider.length; ++i) {
+                        if (dataProvider[i].dataIdx === legendEvent.dataItem.dataIdx) {
+                            itemIndex = i;
+                            break;
+                        }
+                    }
+                    //store the object into the dataItem
+                    legendEvent.dataItem.storedObj = dataProvider[itemIndex];
+                    //remove it
+                    dataProvider.splice(itemIndex, 1);
                 }
-                if (did == "Semua" && year != "Semua") {
-                    chart_fasilitas.categoryAxis.title = "Desa";
-                    categoryWidth = 230;
-                }
-                if (did != "Semua" && year == "Semua") {
-                    chart_fasilitas.categoryAxis.title = "Desa";
-                    categoryWidth = 150;
-                }
-                if (did != "Semua" && year != "Semua") {
-                    chart_fasilitas.categoryAxis.title = "Semester";
-                    categoryWidth = 230;
-                }
-                // calculate bottom margi95based on number of data points
-                var chartHeight = categoryWidth * chart_fasilitas.dataProvider.length;
+                legendEvent.chart.validateData(); //redraw the chart
+            }
 
-                // set the value
-                chart_fasilitas.div.style.height = chartHeight + 'px';
+            //check if legend is enabled and custom generateFromData property
+            //is set before running
+            if (!chart_penyakit2.legend || !chart_penyakit2.legend.enabled || !chart_penyakit2.legend.generateFromData) {
+                return;
+            }
 
-
-            }, ['serial']);
-
-            // Chart Perbandingan Jumlah Anak Tidak Sekolah
-            var chart_fasilitas = AmCharts.makeChart("chart_fasilitas", {
-                "type": "serial",
-                "theme": "light",
-                "legend": {
-                    "horizontalGap": 10,
-                    "maxColumns": 1,
-                    "position": "bottom",
-                    "useGraphSettings": true,
-                    "markerSize": 10
-                },
-                "dataProvider": data,
-                "valueAxes": [{
-                    "stackType": "regular",
-                    "axisAlpha": 0.3,
-                    "gridAlpha": 0
-                }],
-                "graphs": [{
-                    "balloonText": "<b>[[title]]</b><br><span style='font-size:14px'>[[category]]: <b>[[value]]</b></span>",
-                    "fillAlphas": 0.8,
-                    "labelText": "[[value]]",
-                    "lineAlpha": 0.3,
-                    "title": "Jumlah PAUD",
-                    "type": "column",
-                    "color": "#000000",
-                    "valueField": "jumlah_paud",
-                    "labelText": "[[value]]",
-                    "labelPosition": "middle"
-                }, {
-                    "balloonText": "<b>[[title]]</b><br><span style='font-size:14px'>[[category]]: <b>[[value]]</b></span>",
-                    "fillAlphas": 0.8,
-                    "labelText": "[[value]]",
-                    "lineAlpha": 0.3,
-                    "title": "Jumlah Guru PAUD",
-                    "type": "column",
-                    "color": "#000000",
-                    "valueField": "jumlah_guru_paud",
-                    "labelText": "[[value]]",
-                    "labelPosition": "middle"
-                }, {
-                    "balloonText": "<b>[[title]]</b><br><span style='font-size:14px'>[[category]]: <b>[[value]]</b></span>",
-                    "fillAlphas": 0.8,
-                    "labelText": "[[value]]",
-                    "lineAlpha": 0.3,
-                    "title": "Jumlah Siswa PAUD",
-                    "type": "column",
-                    "color": "#000000",
-                    "valueField": "jumlah_siswa_paud",
-                    "labelText": "[[value]]",
-                    "labelPosition": "middle"
-                }],
-                "categoryField": "year",
-                "categoryAxis": {
-                    "gridPosition": "start",
-                    "axisAlpha": 0,
-                    "gridAlpha": 0,
-                    "position": "left"
-                },
-                "export": {
-                    "enabled": true,
-                    "pageOrigin": false,
-                    "fileName": "Perbandingan Jumlah Siswa dan Jumlah Fasilitas PAUD",
-                },
-                "hideCredits": true,
-                "allLabels": [{
-                    "text": "Perbandingan Jumlah Siswa dan Jumlah Fasilitas PAUD",
-                    "align": "center",
-                    "bold": true,
-                    "size": 20,
-                    "y": -4
-                }],
-                "numberFormatter": {
-                    "precision": -1,
-                    "decimalSeparator": ",",
-                    "thousandsSeparator": "."
+            var categoryField = chart_penyakit2.categoryField;
+            var colorField = chart_penyakit2.graphs[0].lineColorField || chart_penyakit2.graphs[0].fillColorsField || chart_penyakit2.graphs[0].colorField || chart_penyakit2.graphs[0].fillColors;
+            var legendData = chart_penyakit2.dataProvider.map(function(data, idx) {
+                var markerData = {
+                    "title": data[categoryField] + ": " + data[chart_penyakit2.graphs[0].valueField],
+                    "color": data[colorField],
+                    "dataIdx": idx //store a copy of the index of where this appears in the dataProvider array for ease of removal/re-insertion
+                };
+                if (!markerData.color) {
+                    markerData.color = chart_penyakit2.graphs[0].lineColor;
                 }
+                data.dataIdx = idx; //also store it in the dataProvider object itself
+                return markerData;
             });
-        }
-    </script>
+
+            chart_penyakit2.legend.data = legendData;
+
+            //make the markers toggleable
+            chart_penyakit2.legend.switchable = true;
+            chart_penyakit2.legend.addListener("clickMarker", handleCustomMarkerToggle);
+
+        }, ['serial']);
+
+        var chart_penyakit2 = AmCharts.makeChart("chart_penyakit", {
+            "type": "serial",
+            "theme": "light",
+            "categoryField": "year",
+            "rotate": true,
+            "hideCredits": true,
+            "startDuration": 1,
+            "categoryAxis": {
+                "gridPosition": "start",
+                "position": "left",
+                "title": "Semester"
+            },
+            "trendLines": [],
+            "graphs": [{
+                    "balloonText": "Jumlah Penderita:[[value]]",
+                    "fillAlphas": 0.8,
+                    //"fillColors": "#03749f",
+                    "id": "AmGraph-1",
+                    "lineAlpha": 0.2,
+                    "title": "Jumlah Penderita",
+                    "type": "column",
+                    "valueField": "penyakit1",
+                    "labelText": "[[value]]",
+                    "labelPosition": "middle"
+                },
+                {
+                    "balloonText": "Jumlah Penderita:[[value]]",
+                    "fillAlphas": 0.8,
+                    //"fillColors": "#03749f",
+                    "id": "AmGraph-1",
+                    "lineAlpha": 0.2,
+                    "title": "Jumlah Penderita",
+                    "type": "column",
+                    "valueField": "penyakit2",
+                    "labelText": "[[value]]",
+                    "labelPosition": "middle"
+                },
+                {
+                    "balloonText": "Jumlah Penderita:[[value]]",
+                    "fillAlphas": 0.8,
+                    //"fillColors": "#03749f",
+                    "id": "AmGraph-1",
+                    "lineAlpha": 0.2,
+                    "title": "Jumlah Penderita",
+                    "type": "column",
+                    "valueField": "penyakit3",
+                    "labelText": "[[value]]",
+                    "labelPosition": "middle"
+                },
+                {
+                    "balloonText": "Jumlah Penderita:[[value]]",
+                    "fillAlphas": 0.8,
+                    //"fillColors": "#03749f",
+                    "id": "AmGraph-1",
+                    "lineAlpha": 0.2,
+                    "title": "Jumlah Penderita",
+                    "type": "column",
+                    "valueField": "penyakit4",
+                    "labelText": "[[value]]",
+                    "labelPosition": "middle"
+                }
+            ],
+            "guides": [],
+            "valueAxes": [{
+                "position": "left",
+                "title": "Jumlah",
+                "baseValue": 0,
+                "minimum": 0
+            }],
+            "allLabels": [{
+                "text": "Jumlah Epidemi Penyakit",
+                "align": "center",
+                "bold": true,
+                "size": 20,
+                "y": 10
+            }],
+            "marginTop": 50,
+            "dataProvider": data,
+            "export": {
+                "enabled": true,
+                "pageOrigin": false,
+                "fileName": "Jumlah Epidemi Penyakit",
+            },
+            "legend": {
+                "enabled": true
+            },
+            "numberFormatter": {
+                "precision": -1,
+                "decimalSeparator": ",",
+                "thousandsSeparator": "."
+            }
+        });
+
+    }
+
+    function create_chart_sanitasi(data) {
+        AmCharts.addInitHandler(function(chart_sanitasi) {
+            // set base values
+            var categoryWidth = 145;
+
+            // calculate bottom margin based on number of data points
+            var chartHeight = categoryWidth * chart_sanitasi.dataProvider.length;
+
+            // set the value
+            chart_sanitasi.div.style.height = chartHeight + 'px';
+
+            //method to handle removing/adding columns when the marker is toggled
+            function handleCustomMarkerToggle(legendEvent) {
+                var dataProvider = legendEvent.chart.dataProvider;
+                var itemIndex; //store the location of the removed item
+
+                //Set a custom flag so that the dataUpdated event doesn't fire infinitely, in case you have
+                //a dataUpdated event of your own
+                legendEvent.chart.toggleLegend = true;
+                // The following toggles the markers on and off.
+                // The only way to "hide" a column and reserved space on the axis is to remove it
+                // completely from the dataProvider. You'll want to use the hidden flag as a means
+                // to store/retrieve the object as needed and then sort it back to its original location
+                // on the chart using the dataIdx property in the init handler
+                if (undefined !== legendEvent.dataItem.hidden && legendEvent.dataItem.hidden) {
+                    legendEvent.dataItem.hidden = false;
+                    dataProvider.push(legendEvent.dataItem.storedObj);
+                    legendEvent.dataItem.storedObj = undefined;
+                    //re-sort the array by dataIdx so it comes back in the right order.
+                    dataProvider.sort(function(lhs, rhs) {
+                        return lhs.dataIdx - rhs.dataIdx;
+                    });
+                } else {
+                    // toggle the marker off
+                    legendEvent.dataItem.hidden = true;
+                    //get the index of the data item from the data provider, using the
+                    //dataIdx property.
+                    for (var i = 0; i < dataProvider.length; ++i) {
+                        if (dataProvider[i].dataIdx === legendEvent.dataItem.dataIdx) {
+                            itemIndex = i;
+                            break;
+                        }
+                    }
+                    //store the object into the dataItem
+                    legendEvent.dataItem.storedObj = dataProvider[itemIndex];
+                    //remove it
+                    dataProvider.splice(itemIndex, 1);
+                }
+                legendEvent.chart.validateData(); //redraw the chart
+            }
+
+            //check if legend is enabled and custom generateFromData property
+            //is set before running
+            if (!chart_sanitasi.legend || !chart_sanitasi.legend.enabled || !chart_sanitasi.legend.generateFromData) {
+                return;
+            }
+
+            var categoryField = chart_sanitasi.categoryField;
+            var colorField = chart_sanitasi.graphs[0].lineColorField || chart_sanitasi.graphs[0].fillColorsField || chart_sanitasi.graphs[0].colorField || chart_sanitasi.graphs[0].fillColors;
+            var legendData = chart_sanitasi.dataProvider.map(function(data, idx) {
+                var markerData = {
+                    "title": data[categoryField] + ": " + data[chart_sanitasi.graphs[0].valueField],
+                    "color": data[colorField],
+                    "dataIdx": idx //store a copy of the index of where this appears in the dataProvider array for ease of removal/re-insertion
+                };
+                if (!markerData.color) {
+                    markerData.color = chart_sanitasi.graphs[0].lineColor;
+                }
+                data.dataIdx = idx; //also store it in the dataProvider object itself
+                return markerData;
+            });
+
+            chart_sanitasi.legend.data = legendData;
+
+            //make the markers toggleable
+            chart_sanitasi.legend.switchable = true;
+            chart_sanitasi.legend.addListener("clickMarker", handleCustomMarkerToggle);
+
+        }, ['serial']);
+
+        var chart_sanitasi = AmCharts.makeChart("chart_sanitasi", {
+            "type": "serial",
+            "theme": "light",
+            "categoryField": "year",
+            "hideCredits": true,
+            "rotate": true,
+            "legend": {
+                "enabled": true,
+            },
+            "startDuration": 1,
+            "categoryAxis": {
+                "gridPosition": "start",
+                //"position": "left",
+                "title": "Kuartal"
+            },
+            //"trendLines": [],
+            "graphs": [{
+                    "balloonText": "Toilet:[[value]]",
+                    "fillAlphas": 0.8,
+                    //"fillColors": "#07749f",
+                    "id": "AmGraph-1",
+                    "lineAlpha": 0.2,
+                    "title": "Toilet",
+                    "type": "column",
+                    "valueField": "toilet",
+                    "labelText": "[[value]]",
+                    "labelPosition": "middle"
+                },
+                {
+                    "balloonText": "Sanitasi:[[value]]",
+                    "fillAlphas": 0.8,
+                    //"fillColors": "#025777",
+                    "id": "AmGraph-2",
+                    "lineAlpha": 0.2,
+                    "title": "Sanitasi",
+                    "type": "column",
+                    "valueField": "sanitasi",
+                    "labelText": "[[value]]",
+                    "labelPosition": "middle"
+                }
+            ],
+            "depth3D": 5,
+            "angle": 15,
+            "guides": [],
+            "marginTop": 50,
+            "valueAxes": [{
+                "position": "left",
+                "title": "Jumlah",
+                "baseValue": 0,
+                "minimum": 0
+            }],
+            "allLabels": [{
+                "text": "Jumlah Toilet & Sanitasi",
+                "align": "center",
+                "bold": true,
+                "size": 20,
+                "y": 10
+            }],
+            "balloon": {},
+            "titles": [],
+            "dataProvider": data,
+            "export": {
+                "enabled": true,
+                "pageOrigin": false,
+                "fileName": "Jumlah Toilet & Sanitasi",
+            },
+            "numberFormatter": {
+                "precision": -1,
+                "decimalSeparator": ",",
+                "thousandsSeparator": "."
+            }
+        });
+    }
+</script>
 @endpush

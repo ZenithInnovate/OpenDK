@@ -30,7 +30,7 @@
                 <div class="page-content">
                     <!-- ======= Blog Single Section ======= -->
                     <div class="dinamic-single">
-                        <div class="title">{{ 'Presentase ' . $page_title }}</div>
+                        <div class="title">{{ $page_title }}</div>
                         <div class="box-header">
                             <form class="form-horizontal">
                                 <div class="col-md-4 col-lg-4 col-sm-12">
