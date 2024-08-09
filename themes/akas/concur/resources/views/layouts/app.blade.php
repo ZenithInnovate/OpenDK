@@ -112,6 +112,7 @@ Kecamatan Digital, semua pelayanan menjadi lebih baik.",
     </style>
 
     @stack('styles')
+    @stack('css')
 </head>
 
 <body>
@@ -297,7 +298,6 @@ Kecamatan Digital, semua pelayanan menjadi lebih baik.",
     <script src="{{ theme_asset('lib/js/main.js') }}"></script>
 
     @stack('scripts')
-    {{-- COBA --}}
 </body>
 
 </html>

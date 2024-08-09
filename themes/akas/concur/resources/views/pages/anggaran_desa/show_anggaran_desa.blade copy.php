@@ -128,7 +128,6 @@
                 }
             }).done(function(data) {
                 create_chart_anggaran(data.grafik);
-                alert
                 $('#detail_anggaran').html(data.detail);
             });
 

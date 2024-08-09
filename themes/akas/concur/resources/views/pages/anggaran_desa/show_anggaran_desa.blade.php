@@ -20,82 +20,80 @@
 @endpush
 
 @section('content')
+    @include('layouts.breadcrumbs', ['title' => $page_description])
 
-@include('layouts.breadcrumbs', ['title' => $page_description])
-
-<div class="section-post">
-    <div class="container">
-        <div class="row">
-            <!-- page content -->
-            <div class="col-md-8">
-                <div class="page-content">
-                    <!-- ======= Blog Single Section ======= -->
-                    <div class="dinamic-single">
-                        <div class="title">{{ 'Presentase ' . $page_title }}</div>
-                        <div class="box-header">
-                            <form class="form-horizontal">
-                                <div class="col-md-4 col-lg-4 col-sm-12">
-                                    <div class="form-group">
-                                        <label for="list_desa" class="col-sm-4 control-label">Desa</label>
-                                        <div class="col-sm-8">
-                                            <input type="hidden" id="profil_id" value="{{ $profil->id }}">
-                                            <select class="form-control" id="list_desa">
-                                                <option value="Semua">Semua Desa</option>
-                                                @foreach ($list_desa as $desa)
-                                                <option value="{{ $desa->desa_id }}">{{ $desa->nama }}</option>
-                                                @endforeach
-                                            </select>
+    <div class="section-post">
+        <div class="container">
+            <div class="row">
+                <!-- page content -->
+                <div class="col-md-8">
+                    <div class="page-content">
+                        <!-- ======= Blog Single Section ======= -->
+                        <div class="dinamic-single">
+                            <div class="title">{{ 'Presentase ' . $page_title }}</div>
+                            <div class="box-header">
+                                <form class="form-horizontal">
+                                    <div class="col-md-4 col-lg-4 col-sm-12">
+                                        <div class="form-group">
+                                            <label for="list_desa" class="col-sm-4 control-label">Desa</label>
+                                            <div class="col-sm-8">
+                                                <input type="hidden" id="profil_id" value="{{ $profil->id }}">
+                                                <select class="form-control" id="list_desa">
+                                                    <option value="Semua">Semua Desa</option>
+                                                    @foreach ($list_desa as $desa)
+                                                    <option value="{{ $desa->desa_id }}">{{ $desa->nama }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="col-md-4 col-lg-4 col-sm-12">
-                                    <div class="form-group">
-                                        <label for="bulan" class="col-sm-4 control-label">Bulan</label>
-                                        <div class="col-sm-8">
-                                            <select class="form-control" id="list_months" name="m">
-                                                <option value="Semua">Semua</option>
-                                                @foreach (months_list() as $key => $month)
-                                                <option value="{{ $key }}">{{ $month }}</option>
-                                                @endforeach
-                                            </select>
+                                    <div class="col-md-4 col-lg-4 col-sm-12">
+                                        <div class="form-group">
+                                            <label for="bulan" class="col-sm-4 control-label">Bulan</label>
+                                            <div class="col-sm-8">
+                                                <select class="form-control" id="list_months" name="m">
+                                                    <option value="Semua">Semua</option>
+                                                    @foreach (months_list() as $key => $month)
+                                                    <option value="{{ $key }}">{{ $month }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="col-md-4 col-lg-4 col-sm-12">
-                                    <div class="form-group">
-                                        <label for="list_year" class="col-sm-4 control-label">Tahun</label>
-                                        <div class="col-sm-8">
-                                            <select class="form-control" id="list_year">
-                                                <option value="Semua">Semua</option>
-                                                @foreach ($year_list as $year)
-                                                <option value="{{ $year }}">{{ $year }}</option>
-                                                @endforeach
-                                            </select>
+                                    <div class="col-md-4 col-lg-4 col-sm-12">
+                                        <div class="form-group">
+                                            <label for="list_year" class="col-sm-4 control-label">Tahun</label>
+                                            <div class="col-sm-8">
+                                                <select class="form-control" id="list_year">
+                                                    <option value="Semua">Semua</option>
+                                                    @foreach ($year_list as $year)
+                                                    <option value="{{ $year }}">{{ $year }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            </form>
-                        </div>
-                        <hr>
-                        <div class="box box-widget">
-                            Disini
+                                </form>
+                            </div>
+                            <hr>
+                            <div id="chartdiv" style="width: 100%; height: 400px; overflow: hidden; text-align: left;">
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="page-content" id="detail_anggaran">
+                    <div class="page-content" id="detail_anggaran">
+                    </div>
                 </div>
+                <!-- End page content -->
+
+                {{-- Widget --}}
+                @include('layouts.widget')
             </div>
-            <!-- End page content -->
-
-            {{-- Widget --}}
-            @include('layouts.widget')
         </div>
     </div>
-</div>
 @endsection
 
-@include('partials.asset_amcharts')
+@include('components.asset_amcharts')
 @push('scripts')
     <script>
         $(document).ready(function() {
@@ -146,16 +144,22 @@
 
         function das_chart_anggaran(mid, did, year) {
 
-            $.ajax('{!! route('statistik.chart-anggaran-desa') !!}', {
+            $.ajax({
+                url: '{!! route('statistik.chart-anggaran-desa') !!}',
+                method: 'GET', // Atau 'POST' tergantung kebutuhan
                 data: {
                     mid: mid,
                     did: did,
                     y: year
+                },
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // Jika menggunakan POST dan Laravel
                 }
             }).done(function(data) {
                 create_chart_anggaran(data.grafik);
-                alert
                 $('#detail_anggaran').html(data.detail);
+            }).fail(function(jqXHR, textStatus, errorThrown) {
+                console.error('Request failed: ' + textStatus);
             });
 
         }
