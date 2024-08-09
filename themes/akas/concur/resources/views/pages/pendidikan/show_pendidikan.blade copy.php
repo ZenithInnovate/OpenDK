@@ -49,17 +49,15 @@
                         <div class="active tab-pane" id="jumlah_penduduk">
                             <div class="row">
                                 <div class="col-md-12">
-                                    <div id="chart_penduduk_pendidikan" style="width: 100%; overflow: auto; text-align: left;"></div>
+                                    
                                 </div>
                             </div>
                         </div>
                         <div class="tab-pane" id="jumlah_putus_sekolah">
-                            <div id="chart_putus_sekolah" style="width:100%; overflow: visible; text-align: left; padding: 10px;;">
-                            </div>
+                            
                         </div>
                         <div class="tab-pane" id="jumlah_fasilitas">
-                            <div id="chart_fasilitas" style="width:100%;  overflow: visible; text-align: left; padding: 10px;;">
-                            </div>
+                            
                         </div>
                     </div>
                     <!-- /.nav-tabs-custom -->
