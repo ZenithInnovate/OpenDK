@@ -1,91 +1,99 @@
 @extends('layouts.app')
+@section('title', $page_description)
+
+@push('styles')
+<style type="text/css">
+    .box-header {
+        padding: 10px;
+        margin-bottom: -5px;
+        border-radius: 5px;
+    }
+
+    .form-horizontal .form-group {
+        margin-bottom: -5px;
+    }
+
+    .form-horizontal .form-group label {
+        padding-top: 5px;
+    }
+</style>
+@endpush
 
 @section('content')
-    <div class="col-md-8">
-        <div class="box box-primary">
-            <div class="box-header with-border">
-                <form class="form-horizontal">
-                    <div class="col-lg-6 col-sm-12">
-                        <div class="form-group">
-                            <label for="list_desa" class="col-sm-4 control-label">Desa</label>
-                            <div class="col-sm-8">
-                                <input type="hidden" id="profil_id" value="{{ $profil->id }}">
-                                <select class="form-control" id="list_desa">
-                                    <option value="Semua">Semua Desa</option>
-                                    @foreach ($list_desa as $desa)
-                                        <option value="{{ $desa->desa_id }}">{{ $desa->nama }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-6 col-sm-12">
-                        <div class="form-group">
-                            <label for="list_year" class="col-sm-4 control-label">Tahun</label>
-                            <div class="col-sm-8">
-                                <select class="form-control" id="list_year">
-                                    @foreach ($year_list as $year)
-                                        <option value="{{ $year }}">{{ $year }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
+@include('layouts.breadcrumbs', ['title' => $page_description])
 
-        <!-- /.row -->
+<div class="section-post">
+    <div class="container">
         <div class="row">
-            <div class="col-md-12">
-                <div class="nav-tabs-custom">
-                    <ul class="nav nav-tabs">
-                        <li class="active"><a href="#penduduk" data-toggle="tab">Penduduk/Perorangan</a></li>
-                        <li><a href="#keluarga" data-toggle="tab">Keluarga/KK</a></li>
-                    </ul>
-
-                    <div class="tab-content">
-                        <div class="active tab-pane" id="penduduk">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div id="chart_bantuan_penduduk" style="width: 100%; height: 500px; overflow: hidden; text-align: left;"></div>
+            <!-- page content -->
+            <div class="col-md-8">
+                <div class="page-content">
+                    <!-- ======= Blog Single Section ======= -->
+                    <div class="dinamic-single">
+                        <div class="title">{{ 'Presentase ' . $page_title }}</div>
+                        <div class="box-header">
+                            <form class="form-horizontal">
+                                <div class="col-md-4 col-lg-4 col-sm-12">
+                                    <div class="form-group">
+                                        <label for="bulan" class="col-sm-4 control-label">Desa</label>
+                                        <div class="col-sm-8">
+                                            <input type="hidden" id="profil_id" value="{{ $profil->id }}">
+                                            <select class="form-control" id="list_desa">
+                                                <option value="Semua">Semua Desa</option>
+                                                @foreach ($list_desa as $desa)
+                                                <option value="{{ $desa->desa_id }}">{{ $desa->nama }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div id="tabel_bantuan_penduduk" class="col-md-12">
-
+                                <div class="col-md-4 col-lg-4 col-sm-12">
+                                    <div class="form-group">
+                                        <label for="tahun" class="col-sm-4 control-label">Tahun</label>
+                                        <div class="col-sm-8">
+                                            <select class="form-control" id="list_year">
+                                                <option value="Semua">Semua</option>
+                                                @foreach ($year_list as $year)
+                                                <option value="{{ $year }}">{{ $year }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
+                            </form>
                         </div>
-                        <div class="tab-pane" id="keluarga">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div id="chart_bantuan_keluarga" style="width: 100%; height: 500px; overflow: hidden; text-align: left;"></div>
-                                </div>
-                                <div id="tabel_bantuan_keluarga" class="col-md-12">
-
-                                </div>
-                            </div>
-                        </div>
-
                     </div>
-                    <!-- /.nav-tabs-custom -->
+
+                    <div class="dinamic-single">
+                        <div id="chart_bantuan_penduduk" style="width: 100%; height: 500px; overflow: hidden; text-align: left;"></div>
+                    </div>
+
+                    <div class="dinamic-single">
+                        <div id="chart_bantuan_keluarga" style="width: 100%; height: 500px; overflow: hidden; text-align: left;"></div>
+                    </div>
                 </div>
             </div>
+            <!-- End page content -->
+
+            {{-- Widget --}}
+            @include('layouts.widget')
         </div>
     </div>
+</div>
 @endsection
 
-@include('partials.asset_amcharts')
-@include('partials.asset_select2')
-
+@include('components.asset_amcharts')
 @push('scripts')
-    <script>
+<script>
+    $(document).ready(function() {
+            $('.select2').select2();
+        });
+
         $(function() {
-            // Select 2 Kecamatan
             $('#list_desa').select2();
             $('#list_year').select2();
-
-
-            // Change Dashboard when Lsit Desa changed
+    
+                // Change Dashboard when Lsit Desa changed
             $('#list_desa').on('select2:select', function(e) {
                 var did = e.params.data;
                 var year = $('#list_year').find(":selected").text();
@@ -114,22 +122,36 @@
         });
 
         function change_das_bantuan(did, year) {
-            $.ajax('{!! route('statistik.program-bantuan.chart-penduduk') !!}', {
+            $.ajax({
+                url: '{!! route('statistik.program-bantuan.chart-penduduk') !!}',
+                method: 'GET', // Atau 'POST' tergantung kebutuhan
                 data: {
                     did: did,
                     y: year
+                },
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // Jika menggunakan POST dan Laravel
                 }
             }).done(function(data) {
                 create_chart_bantuan_penduduk(data);
+            }).fail(function(jqXHR, textStatus, errorThrown) {
+                console.log('Error: ' + errorThrown);
             });
 
-            $.ajax('{!! route('statistik.program-bantuan.chart-keluarga') !!}', {
+            $.ajax({
+                url: '{!! route('statistik.program-bantuan.chart-keluarga') !!}',
+                method: 'GET', // Atau 'POST' tergantung kebutuhan
                 data: {
                     did: did,
                     y: year
+                },
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // Jika menggunakan POST dan Laravel
                 }
             }).done(function(data) {
                 create_chart_bantuan_keluarga(data);
+            }).fail(function(jqXHR, textStatus, errorThrown) {
+                console.log('Error: ' + errorThrown);
             });
         }
 

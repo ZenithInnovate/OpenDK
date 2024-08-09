@@ -260,9 +260,7 @@
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // Jika menggunakan POST dan Laravel
                     }
-                }).done(function(data) {
-                    console.log(data);
-                    
+                }).done(function(data) {                    
                     $('#total_belanja').html('Rp ' + numeral(data.sum.total_belanja).format());
                     $('#total_belanja_persen').html(numeral(data.sum.total_belanja_persen).format() + '%');
                     $('#total_belanja_persen_bar').css('width', data.sum.total_belanja_persen + '%');
