@@ -51,7 +51,7 @@
                                     </div>
                                 </div>
                                 <div class="col-md-4 col-lg-4 col-sm-12">
-                                    <div class="form-group" style="padding-left: 10px;">
+                                    <div class="form-group">
                                         <label for="urutan" class="col-sm-4 control-label">Urutan</label>
                                         <div class="col-sm-8">
                                             <select class="form-control" id="tanggal" name="tanggal" style="display: inline-flex; width: 100%;">

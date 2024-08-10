@@ -15,31 +15,33 @@
                     <div class="dinamic-single">
                         <div class="title">Data Regulasi</div>
                         @if (isset($regulasi))
-                            <table class="table table-bordered table-hover dataTable" id="datadesa-table">
-                                <thead>
-                                    <tr>
-                                        <th style="width: 30px" class="text-center">No</th>
-                                        <th>Judul Regulasi</th>
-                                        <th style="width: 120px;" class="text-center">Aksi</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($regulasi as $item)
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-hover dataTable" id="datadesa-table">
+                                    <thead>
                                         <tr>
-                                            <td class="text-center">{{ $loop->iteration }}</td>
-                                            <td>{{ $item->judul }}</td>
-                                            <td class="text-center">
-                                                <a href="{{ route('unduhan.regulasi.show', ['nama_regulasi' => str_slug($item->judul)]) }}" title="Lihat">
-                                                    <button type="button" class="btn btn-warning btn-sm" style="width: 40px;"><i class="fa fa-eye fa-fw"></i></button>
-                                                </a>
-                                                <a href="{{ route('unduhan.regulasi.download', ['file' => str_slug($item->judul)]) }}" title="Unduh">
-                                                    <button type="button" class="btn btn-info btn-sm" style="width: 40px;"><i class="fa fa-download"></i></button>
-                                                </a>
-                                            </td>
+                                            <th style="width: 30px" class="text-center">No</th>
+                                            <th>Judul Regulasi</th>
+                                            <th style="width: 120px;" class="text-center">Aksi</th>
                                         </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($regulasi as $item)
+                                            <tr>
+                                                <td class="text-center">{{ $loop->iteration }}</td>
+                                                <td>{{ $item->judul }}</td>
+                                                <td class="text-center">
+                                                    <a href="{{ route('unduhan.regulasi.show', ['nama_regulasi' => str_slug($item->judul)]) }}" title="Lihat">
+                                                        <button type="button" class="btn btn-warning btn-sm" style="width: 40px;"><i class="fa fa-eye fa-fw"></i></button>
+                                                    </a>
+                                                    <a href="{{ route('unduhan.regulasi.download', ['file' => str_slug($item->judul)]) }}" title="Unduh">
+                                                        <button type="button" class="btn btn-info btn-sm" style="width: 40px;"><i class="fa fa-download"></i></button>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
                         @else
                         <div class="alert alert-warning">
                             <i class="fa fa-exclamation-triangle"></i> Data belum tersedia.
