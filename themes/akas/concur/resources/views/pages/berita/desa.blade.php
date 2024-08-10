@@ -35,12 +35,13 @@
                     <!-- ======= Blog Single Section ======= -->
                     <div class="halaman-arsip">
                         <div class="box-header">
-                            <form class="form-horizontal">
+                            <form class="form-horizontal" id="form_filter" method="get" action="{{ route('filter-berita-desa') }}">
+                                <input type="hidden" value="1" name="page">
                                 <div class="col-md-4 col-lg-4 col-sm-12">
                                     <div class="form-group">
                                         <label for="list_desa" class="col-sm-4 control-label">Desa</label>
                                         <div class="col-sm-8">
-                                            <select class="form-control" id="list_desa" name="desa" style="width: auto;">
+                                            <select class="form-control" id="list_desa" name="desa" style="width: 100%;">
                                                 <option value="Semua">Semua Desa</option>
                                                 @foreach ($list_desa as $desa)
                                                     <option value="{{ $desa->desa_id }}" <?php $cari_desa == $desa->desa_id && (print 'selected'); ?>>{{ $desa->nama }} </option>
@@ -51,9 +52,9 @@
                                 </div>
                                 <div class="col-md-4 col-lg-4 col-sm-12">
                                     <div class="form-group" style="padding-left: 10px;">
-                                        <label for="bulan" class="col-sm-4 control-label">Bulan</label>
+                                        <label for="urutan" class="col-sm-4 control-label">Urutan</label>
                                         <div class="col-sm-8">
-                                            <select class="form-control" id="tanggal" name="tanggal" style="display: inline-flex; width: auto;">
+                                            <select class="form-control" id="tanggal" name="tanggal" style="display: inline-flex; width: 100%;">
                                                 <option value="Terlama">Terbaru</option>
                                                 <option value="Terbaru">Terlama</option>
                                             </select>

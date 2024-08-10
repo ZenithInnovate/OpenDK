@@ -22,7 +22,7 @@
                     </div>
                     <div class="isi">
                         <p></p>
-                        <p>{!! $item['description'] !!}...</p>
+                        <p>{!! $item['description'] !!}</p>
                     </div>
                 </div>
             </div>
@@ -47,11 +47,15 @@
     <script type="text/javascript">
         $(document).ready(function() {
             var ajax_artikel = function() {
+                var csrf_token = $('meta[name="csrf-token"]').attr('content');
                 $.ajax({
                     url: "{{ route('filter-berita-desa') }}",
                     type: 'get',
                     dataType: 'json',
                     data: $("#form_filter").serialize(),
+                    headers: {
+                        'X-CSRF-TOKEN': csrf_token
+                    },
                     success: function(data) {
                         $("#feeds").html(data.html);
                     },
@@ -63,6 +67,7 @@
             }
 
             $('#list_desa').select2();
+            $('#tanggal').select2();
             $("#list_desa").change(function() {
                 $("#form_filter").submit();
             });
