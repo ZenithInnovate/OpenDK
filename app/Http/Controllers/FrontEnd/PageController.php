@@ -70,6 +70,8 @@ class PageController extends FrontEndController
     {
         $this->data = getFeeds();
 
+        // dd($this->data);
+
         $feeds = collect(($this->data))->sortByDesc('date')->take(config('setting.jumlah_artikel_desa') ?? 30)->paginate(config('setting.artikel_desa_perhalaman') ?? 10);
 
         return view('pages.berita.desa', [
