@@ -219,15 +219,8 @@ Kecamatan Digital, semua pelayanan menjadi lebih baik.",
 
             <div class="mr-md-auto text-center text-md-left">
                 <div class="copyright">
-                    <a href="https://www.smartdesadigital.id" target="_blank">Smart Desa Digital</a> dikembangkan oleh
-                    <a href="https://www.jagoanwebsite.com" target="_blank">Jagoan Website</a>
-                </div>
-                <div class="credits">
-                    <!-- All the links in the footer should remain intact. -->
-                    <!-- You can delete the links only if you purchased the pro version. -->
-                    <!-- Licensing information: https://bootstrapmade.com/license/ -->
-                    <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/company-free-html-bootstrap-template/ -->
-                    Supported by <a href="https://www.jagoanhoster.co.id/" target="_blank">Jagoan Hoster</a>
+                    <strong>Hak Cipta &copy; 2017 <a href="http://www.kompak.or.id" target="_blank">KOMPAK</a>, 2018-{{ date('Y') }} <a
+                            href="http://opendesa.id" target="_blank">OpenDesa</a></strong> Hak cipta dilindungi.
                 </div>
             </div>
             <div class="text-center text-md-right pt-3 pt-md-0">

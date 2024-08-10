@@ -1085,7 +1085,7 @@ code {
 }
 
 .desa-aka .aka-box .aka-cont .aka-sambutan {
-  padding: 15px !important;
+  padding: 5px !important;
   margin-top: 20px;
 }
 
@@ -1137,9 +1137,9 @@ code {
 
   .desa-aka .aka-box .aka-cont .aka-sambutan {
     padding: 0 15px !important;
-    margin-top: 20px;
-    margin-left: 25px;
-    width: 250px;
+    margin-top: 15px;
+    margin-left: 15px;
+    width: 200px;
   }
 
   .desa-aka .aka-box .aka-cont .aka-sambutan .hidden-xs {

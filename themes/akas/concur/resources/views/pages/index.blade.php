@@ -12,10 +12,10 @@
         <div class="container align-items-center">
             <div class="aka-box">
                 <div class="row">
-                    <div class="col-7">
+                    <div class="col-12">
                         <div class="aka-cont">
                             <div class="row">
-                                <div class="col-4">
+                                <div class="col-3">
                                     <div class="get-photo">
                                         <img class="img-fluid"
                                             src="@if (isset($camat->foto)) {{ asset($camat->foto) }} @else {{ asset('img/no-profile.png') }} @endif">
@@ -25,8 +25,8 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-8">
-                                    <div class="aka-sambutan" style="margin-left: 30px; width: 100%;">
+                                <div class="col-9">
+                                    <div class="aka-sambutan">
                                         <div class="header hidden-xs">
                                             <a
                                                 href="https://demo.smartdesadigital.id/berita/kategori/sambutan-dan-himbauan">Sambutan
