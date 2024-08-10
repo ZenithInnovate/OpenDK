@@ -1,166 +1,222 @@
 @extends('layouts.app')
-@section('title', $page_description)
-
-@push('styles')
-<style type="text/css">
-    .box-header {
-        padding: 10px;
-        margin-bottom: -5px;
-        border-radius: 5px;
-    }
-
-    .form-horizontal .form-group {
-        margin-bottom: -5px;
-    }
-
-    .form-horizontal .form-group label {
-        padding-top: 5px;
-    }
-
-    .info-box-icon .fa {
-        padding: 30px;
-    }
-</style>
-@endpush
 
 @section('content')
-@include('layouts.breadcrumbs', ['title' => $page_description])
+    <div class="col-md-8">
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <form class="form-horizontal">
+                    <div class="col-lg-6 col-sm-12">
+                        <div class="form-group">
+                            <label for="list_desa" class="col-sm-4 control-label">Desa</label>
+                            <div class="col-sm-8">
+                                <input type="hidden" id="profil_id" value="{{ $profil->id }}">
+                                <select class="form-control" id="list_desa">
+                                    <option value="Semua">Semua Desa</option>
+                                    @foreach ($list_desa as $desa)
+                                        <option value="{{ $desa->desa_id }}">{{ $desa->nama }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-sm-12">
+                        <div class="form-group">
+                            <label for="list_year" class="col-sm-4 control-label">Tahun</label>
+                            <div class="col-sm-8">
+                                <select class="form-control" id="list_year">
+                                    @foreach (array_reverse($year_list) as $year)
+                                        <option value="{{ $year }}">{{ $year }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
 
-<div class="section-post">
-    <div class="container">
+        {{-- Div replace by Kecamatan --}}
         <div class="row">
-            <!-- page content -->
-            <div class="col-md-8">
-                <div class="page-content">
-                    <!-- ======= Blog Single Section ======= -->
-                    <div class="dinamic-single">
-                        <div class="title">{{ $page_title }}</div>
-                        <div class="box-header">
-                            <form class="form-horizontal">
-                                <div class="col-md-4 col-lg-4 col-sm-12">
-                                    <div class="form-group">
-                                        <label for="list_desa" class="col-sm-4 control-label">Desa</label>
-                                        <div class="col-sm-8">
-                                            <select class="form-control" id="list_desa">
-                                                <option value="Semua">Semua Desa</option>
-                                                @foreach ($list_desa as $desa)
-                                                <option value="{{ $desa->desa_id }}">{{ $desa->nama }}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4 col-lg-4 col-sm-12">
-                                    <div class="form-group">
-                                        <label for="list_year" class="col-sm-4 control-label">Tahun</label>
-                                        <div class="col-sm-8">
-                                            <select class="form-control" id="list_year">
-                                                <option value="Semua">Semua</option>
-                                                @foreach ($year_list as $year)
-                                                <option value="{{ $year }}">{{ $year }}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                        <hr>
-                        <div class="row">
-                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                <div class="info-box">
-                                    <span class="info-box-icon bg-yellow"><i class="fa fa-users"></i></span>
-                        
-                                    <div class="info-box-content">
-                                        <span class="info-box-text">Penduduk</span>
-                                        <span class="info-box-number" id="total_penduduk">{!! $total_penduduk !!}</span>
-                                    </div>
-                                    <!-- /.info-box-content -->
-                                </div>
-                                <!-- /.info-box -->
-                            </div>
-                        
-                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                <div class="info-box">
-                                    <span class="info-box-icon bg-aqua"><i class="fa fa-male"></i></span>
-                        
-                                    <div class="info-box-content">
-                                        <span class="info-box-text">Laki-Laki</span>
-                                        <span class="info-box-number" id="total_lakilaki">{!! $total_lakilaki !!}</span>
-                                    </div>
-                                    <!-- /.info-box-content -->
-                                </div>
-                                <!-- /.info-box -->
-                            </div>
-                            <!-- /.col -->
-                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                <div class="info-box">
-                                    <span class="info-box-icon bg-red"><i class="fa fa-female"></i></span>
-                        
-                                    <div class="info-box-content">
-                                        <span class="info-box-text">Perempuan</span>
-                                        <span class="info-box-number" id="total_perempuan">{!! $total_perempuan !!}</span>
-                                    </div>
-                                    <!-- /.info-box-content -->
-                                </div>
-                                <!-- /.info-box -->
-                            </div>
-                            <!-- /.col -->
-                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                <div class="info-box">
-                                    <span><img src="{{ asset('img/cacat_logo.png') }}" style="width:90px;height:90px;float:left;">
-                                        <!-- <i class="fa fa-wheelchair"></i> --></span>
-                        
-                                    <div class="info-box-content">
-                                        <span class="info-box-text">Disabilitas</span>
-                                        <span class="info-box-number" id="total_disabilitas">{!! $total_disabilitas !!}</span>
-                                    </div>
-                                    <!-- /.info-box-content -->
-                                </div>
-                                <!-- /.info-box -->
-                            </div>
-                            <!-- /.col -->
-                            <!-- fix for small devices only -->
-                            <div class="clearfix visible-sm-block"></div>
-                            <!-- /.col -->
-                            <!-- /.col -->
-                        </div>
-                    </div>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                <div class="info-box">
+                    <span class="info-box-icon bg-yellow"><i class="fa fa-users"></i></span>
 
-                    <div class="dinamic-single">
-                        <div id="chart_pertumbuhan_penduduk" style="width: 100%; min-height: 500px; overflow: visible; text-align: left;"></div>
+                    <div class="info-box-content">
+                        <span class="info-box-text">Penduduk</span>
+                        <span class="info-box-number" id="total_penduduk">{!! $total_penduduk !!}</span>
                     </div>
-
-                    <div class="dinamic-single">
-                        <div id="chart_putus_sekolah"
-                            style="width:100%; overflow: visible; text-align: left; padding: 10px;;"></div>
-                    </div>
-
-                    <div class="dinamic-single">
-                        <div id="chart_fasilitas"
-                            style="width:100%;  overflow: visible; text-align: left; padding: 10px;;"></div>
-                    </div>
+                    <!-- /.info-box-content -->
                 </div>
+                <!-- /.info-box -->
+            </div>
 
-                <div class="page-content" id="detail_anggaran">
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                <div class="info-box">
+                    <span class="info-box-icon bg-aqua"><i class="fa fa-male"></i></span>
+
+                    <div class="info-box-content">
+                        <span class="info-box-text">Laki-Laki</span>
+                        <span class="info-box-number" id="total_lakilaki">{!! $total_lakilaki !!}</span>
+                    </div>
+                    <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+            </div>
+            <!-- /.col -->
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                <div class="info-box">
+                    <span class="info-box-icon bg-red"><i class="fa fa-female"></i></span>
+
+                    <div class="info-box-content">
+                        <span class="info-box-text">Perempuan</span>
+                        <span class="info-box-number" id="total_perempuan">{!! $total_perempuan !!}</span>
+                    </div>
+                    <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+            </div>
+            <!-- /.col -->
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                <div class="info-box">
+                    <span><img src="{{ asset('img/cacat_logo.png') }}" style="width:90px;height:90px;float:left;">
+                        <!-- <i class="fa fa-wheelchair"></i> --></span>
+
+                    <div class="info-box-content">
+                        <span class="info-box-text">Disabilitas</span>
+                        <span class="info-box-number" id="total_disabilitas">{!! $total_disabilitas !!}</span>
+                    </div>
+                    <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+            </div>
+            <!-- /.col -->
+            <!-- fix for small devices only -->
+            <div class="clearfix visible-sm-block"></div>
+            <!-- /.col -->
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box box-success">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Grafik Penduduk Tiap Tahun</h3>
+
+                        <div class="box-tools pull-right">
+                            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                            <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                        </div>
+                    </div>
+                    <div class="box-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <p class="text-center">
+                                    <strong></strong>
+                                </p>
+
+                                <div id="chart_pertumbuhan_penduduk" style="width: 100%; min-height: 500px; overflow: visible; text-align: left;"></div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <!-- End page content -->
+            <!-- /.row -->
+            <div class="col-md-12">
+                <div class="nav-tabs-custom">
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a href="#usia" data-toggle="tab">Usia</a></li>
+                        <li><a href="#pendidikan" data-toggle="tab">Pendidikan</a></li>
+                        <li><a href="#gol-darah" data-toggle="tab">Golongan Darah</a></li>
+                        <li><a href="#perkawinan" data-toggle="tab">Perkawinan</a></li>
+                        <li><a href="#agama" data-toggle="tab">Agama</a></li>
+                        {{-- <li><a href="#kelamin" data-toggle="tab">Kelamin</a></li> --}}
+                        {{-- <li><a href="#status-tinggal" data-toggle="tab">Status Tinggal</a></li> --}}
+                    </ul>
 
-            {{-- Widget --}}
-            @include('layouts.widget')
+                    <div class="tab-content">
+                        <div class="active tab-pane" id="usia">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div id="chart_usia" style="width:100%; overflow: visible; text-align: left; padding: 10px;;"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tab-pane" id="pendidikan">
+                            <div id="chart_pendidikan" style="width:100%; overflow: visible; text-align: left; padding: 10px;;"></div>
+                        </div>
+                        <div class="tab-pane" id="gol-darah">
+                            <div id="chart_goldarah" style="width:100%; overflow: visible; text-align: left; padding: 10px;;"></div>
+                        </div>
+                        <div class="tab-pane" id="perkawinan">
+                            <div id="chart_kawin" style="width:100%; height: 200px; overflow: visible; text-align: left; padding: 10px;;"></div>
+                        </div>
+                        <div class="tab-pane" id="agama">
+                            <div id="chart_agama" style="width:100%; overflow: visible; text-align: left; padding: 10px;;"></div>
+                        </div>
+                    </div>
+                    <!-- /.nav-tabs-custom -->
+                </div>
+            </div>
+            <div class="col-md-12">
+                <!-- Info Boxes Style 2 -->
+                <div class="info-box bg-green">
+                    <span class="info-box-icon"><i class="fa fa-credit-card"></i></span>
+                    <div class="info-box-content">
+                        <span class="info-box-number">KTP</span>
+                        <span class="info-box-text" id="data_ktp">{!! $ktp_terpenuhi !!} dari {!! $total_penduduk !!}
+                            Jiwa Terpenuhi</span>
+
+                        <div class="progress">
+                            <div id="ktp_persen" class="progress-bar" style="width: {!! $ktp_persen_terpenuhi !!}%"></div>
+                        </div>
+                        <span id="ktp_terpenuhi" class="progress-description">{!! $ktp_persen_terpenuhi !!}% Jiwa Tidak Terpenuhi</span>
+                    </div>
+                    <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+                <div class="info-box bg-red">
+                    <span class="info-box-icon"><i class="fa fa-file-word-o"></i></span>
+                    <div class="info-box-content">
+                        <span class="info-box-number">Akta Kelahiran</span>
+                        <span class="info-box-text" id="data_akta">{!! $akta_terpenuhi !!} dari {!! $total_penduduk !!}
+                            Jiwa Terpenuhi</span>
+
+                        <div class="progress">
+                            <div id="akta_persen" class="progress-bar" style="width: {!! $akta_persen_terpenuhi !!}%"></div>
+                        </div>
+                        <span id="akta_terpenuhi" class="progress-description">{!! $akta_persen_terpenuhi !!}% Jiwa Tidak Terpenuhi</span>
+                    </div>
+                    <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+                <div class="info-box bg-yellow">
+                    <span class="info-box-icon"><i class="fa fa-file-text-o"></i></span>
+
+                    <div class="info-box-content">
+                        <span class="info-box-number">Akta Nikah</span>
+                        <span class="info-box-text" id="data_nikah">{!! $aktanikah_terpenuhi !!} dari {!! $total_penduduk !!}
+                            Jiwa Terpenuhi</span>
+
+                        <div class="progress">
+                            <div id="nikah_persen" class="progress-bar" style="width: {!! $aktanikah_persen_terpenuhi !!}%"></div>
+                        </div>
+                        <span id="nikah_terpenuhi" class="progress-description">{!! $aktanikah_persen_terpenuhi !!}% Jiwa Tidak Terpenuhi</span>
+                    </div>
+                    <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+            </div>
+            <!-- /.row -->
         </div>
     </div>
-</div>
+    <!-- /.content -->
 @endsection
-
-@include('components.asset_amcharts')
+@include('partials.asset_datatables')
+@include('partials.asset_amcharts')
+@include('partials.asset_select2')
 @push('scripts')
     <script>
-        $(document).ready(function() {
-            $('.select2').select2();
-        });
-
         $(function() {
             // Select 2 Kecamatan
             $('#list_desa').select2();
@@ -190,17 +246,17 @@
 
         function change_das_kependudukan(did, year) {
             // Load ajax data penduduk
-            $.ajax({
-                url: '{!! route('statistik.show-kependudukan') !!}',
-                method: 'GET', // Atau 'POST' tergantung kebutuhan
+            $.ajax('{!! route('statistik.show-kependudukan') !!}', {
                 data: {
                     did: did,
                     y: year
-                },
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // Jika menggunakan POST dan Laravel
                 }
             }).done(function(data) {
+                /* if(data.total_penduduk==0){
+                     alert("Data penduduk di tahun " + year + " adalah 0. Data dialihkan ke tahun sebelumnya.");
+                     $("#list_year").val(year - 1);
+                     change_das_kependudukan(did, year-1);
+                 }else{*/
                 $('#total_penduduk').html(data.total_penduduk);
                 $('#total_lakilaki').html(data.total_lakilaki);
                 $('#total_perempuan').html(data.total_perempuan);
@@ -215,93 +271,58 @@
                 $('#data_nikah').html(data.aktanikah_terpenuhi + ' dari ' + data.aktanikah_wajib + ' Status Kawin Terpenuhi');
                 $('#nikah_persen').css('width', data.aktanikah_persen_terpenuhi + '%');
                 $('#nikah_terpenuhi').html(data.aktanikah_persen_terpenuhi + '% Status Kawin Terpenuhi');
+                /* }*/
             });
-
-            // Load Ajax Chart Pertumbuhan Penduduk            
-            $.ajax({
-                url: '{!! route('statistik.chart-kependudukan') !!}',
-                method: 'GET', // Atau 'POST' tergantung kebutuhan
+            // Load Ajax Chart Pertumbuhan Penduduk
+            $.ajax('{!! route('statistik.chart-kependudukan') !!}', {
                 data: {
                     did: did,
                     y: year
-                },
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // Jika menggunakan POST dan Laravel
                 }
             }).done(function(data) {
                 create_chart_penduduk(data);
             });
-    
             // Load Ajax Chart Penduduk By Usia
-            $.ajax({
-                url: '{!! route('statistik.chart-kependudukan-usia') !!}',
-                method: 'GET', // Atau 'POST' tergantung kebutuhan
+            $.ajax('{!! route('statistik.chart-kependudukan-usia') !!}', {
                 data: {
                     did: did,
                     y: year
-                },
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // Jika menggunakan POST dan Laravel
                 }
             }).done(function(data) {
                 create_chart_usia(data);
             });
-
             // Load Ajax Chart Penduduk By Pendidikan
-            $.ajax({
-                url: '{!! route('statistik.chart-kependudukan-pendidikan') !!}',
-                method: 'GET', // Atau 'POST' tergantung kebutuhan
+            $.ajax('{!! route('statistik.chart-kependudukan-pendidikan') !!}', {
                 data: {
                     did: did,
                     y: year
-                },
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // Jika menggunakan POST dan Laravel
                 }
             }).done(function(data) {
                 create_chart_pendidikan(data);
             });
-
             // Load Ajax Chart Penduduk By Golongan Darah
-            $.ajax({
-                url: '{!! route('statistik.chart-kependudukan-goldarah') !!}',
-                method: 'GET', // Atau 'POST' tergantung kebutuhan
+            $.ajax('{!! route('statistik.chart-kependudukan-goldarah') !!}', {
                 data: {
                     did: did,
                     y: year
-                },
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // Jika menggunakan POST dan Laravel
                 }
             }).done(function(data) {
                 create_chart_goldarah(data);
             });
-
             // Load Ajax Chart Penduduk By Status Kawin
-            $.ajax({
-                url: '{!! route('statistik.chart-kependudukan-kawin') !!}',
-                method: 'GET', // Atau 'POST' tergantung kebutuhan
+            $.ajax('{!! route('statistik.chart-kependudukan-kawin') !!}', {
                 data: {
                     did: did,
                     y: year
-                },
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // Jika menggunakan POST dan Laravel
                 }
             }).done(function(data) {
                 create_chart_kawin(data);
             });
-
             // Load Ajax Chart Penduduk By Agama
-            $.ajax({
-                url: '{!! route('statistik.chart-kependudukan-agama') !!}',
-                method: 'GET', // Atau 'POST' tergantung kebutuhan
+            $.ajax('{!! route('statistik.chart-kependudukan-agama') !!}', {
                 data: {
                     did: did,
                     y: year
-                },
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // Jika menggunakan POST dan Laravel
                 }
             }).done(function(data) {
                 create_chart_agama(data);
