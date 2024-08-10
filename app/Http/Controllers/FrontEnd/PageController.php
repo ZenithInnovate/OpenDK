@@ -81,6 +81,11 @@ class PageController extends FrontEndController
         ]);
     }
 
+    private function getFeeds()
+    {
+        return getFeeds();
+    }
+
     public function filterFeeds(Request $request)
     {
         $this->data = $this->getFeeds();
