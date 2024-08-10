@@ -31,13 +31,14 @@
 
 namespace App\Http\Controllers\FrontEnd;
 
+use App\Models\Profil;
 use App\Facades\Counter;
-use App\Http\Controllers\FrontEndController;
 use App\Models\DataDesa;
 use App\Models\Penduduk;
-use App\Models\Profil;
-use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\DataTables;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use App\Http\Controllers\FrontEndController;
 
 class KependudukanController extends FrontEndController
 {
@@ -47,9 +48,9 @@ class KependudukanController extends FrontEndController
 
     public function __construct(Profil $profil, Penduduk $penduduk)
     {
+        parent::__construct();
         $this->profil = $profil;
         $this->penduduk = $penduduk;
-        parent::__construct();
     }
 
     /**
@@ -92,6 +93,12 @@ class KependudukanController extends FrontEndController
         if (request('did') && request('y')) {
             $data = array_merge($data, $this->createDashboardKependudukan(request('did'), request('y')));
         }
+
+        Log::info('Data Kependudukan: '. print_r([
+            'did' => request('did'),
+            'y' => request('y'),
+            'data' => $data,
+        ], true));
 
         return $data;
     }

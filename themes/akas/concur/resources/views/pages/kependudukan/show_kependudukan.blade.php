@@ -17,8 +17,8 @@
         padding-top: 5px;
     }
 
-    .info-box-icon .fa {
-        padding: 30px;
+    .info-box-icon {
+        padding: 15px;
     }
 </style>
 @endpush
@@ -55,8 +55,7 @@
                                         <label for="list_year" class="col-sm-4 control-label">Tahun</label>
                                         <div class="col-sm-8">
                                             <select class="form-control" id="list_year">
-                                                <option value="Semua">Semua</option>
-                                                @foreach ($year_list as $year)
+                                                @foreach (array_reverse($year_list) as $year)
                                                 <option value="{{ $year }}">{{ $year }}</option>
                                                 @endforeach
                                             </select>
@@ -119,11 +118,7 @@
                                 </div>
                                 <!-- /.info-box -->
                             </div>
-                            <!-- /.col -->
-                            <!-- fix for small devices only -->
                             <div class="clearfix visible-sm-block"></div>
-                            <!-- /.col -->
-                            <!-- /.col -->
                         </div>
                     </div>
 
@@ -132,13 +127,73 @@
                     </div>
 
                     <div class="dinamic-single">
-                        <div id="chart_putus_sekolah"
-                            style="width:100%; overflow: visible; text-align: left; padding: 10px;;"></div>
+                        <div id="chart_pendidikan" style="width:100%; overflow: visible; text-align: left; padding: 10px;;"></div>
                     </div>
 
                     <div class="dinamic-single">
-                        <div id="chart_fasilitas"
-                            style="width:100%;  overflow: visible; text-align: left; padding: 10px;;"></div>
+                        <div id="chart_goldarah" style="width:100%; overflow: visible; text-align: left; padding: 10px;;"></div>
+                    </div>
+
+                    <div class="dinamic-single">
+                        <div id="chart_kawin" style="width:100%; height: 200px; overflow: visible; text-align: left; padding: 10px;;"></div>
+                    </div>
+
+                    <div class="dinamic-single">
+                        <div id="chart_agama" style="width:100%; overflow: visible; text-align: left; padding: 10px;;"></div>
+                    </div>
+
+                    <div class="dinamic-single">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <!-- Info Boxes Style 2 -->
+                                <div class="info-box bg-green">
+                                    <span class="info-box-icon"><i class="fa fa-credit-card"></i></span>
+                                    <div class="info-box-content">
+                                        <span class="info-box-number">KTP</span>
+                                        <span class="info-box-text" id="data_ktp">{!! $ktp_terpenuhi !!} dari {!! $total_penduduk !!}
+                                            Jiwa Terpenuhi</span>
+
+                                        <div class="progress">
+                                            <div id="ktp_persen" class="progress-bar" style="width: {!! $ktp_persen_terpenuhi !!}%"></div>
+                                        </div>
+                                        <span id="ktp_terpenuhi" class="progress-description">{!! $ktp_persen_terpenuhi !!}% Jiwa Tidak Terpenuhi</span>
+                                    </div>
+                                    <!-- /.info-box-content -->
+                                </div>
+                                <!-- /.info-box -->
+                                <div class="info-box bg-red">
+                                    <span class="info-box-icon"><i class="fa fa-file-word"></i></span>
+                                    <div class="info-box-content">
+                                        <span class="info-box-number">Akta Kelahiran</span>
+                                        <span class="info-box-text" id="data_akta">{!! $akta_terpenuhi !!} dari {!! $total_penduduk !!}
+                                            Jiwa Terpenuhi</span>
+
+                                        <div class="progress">
+                                            <div id="akta_persen" class="progress-bar" style="width: {!! $akta_persen_terpenuhi !!}%"></div>
+                                        </div>
+                                        <span id="akta_terpenuhi" class="progress-description">{!! $akta_persen_terpenuhi !!}% Jiwa Tidak Terpenuhi</span>
+                                    </div>
+                                    <!-- /.info-box-content -->
+                                </div>
+                                <!-- /.info-box -->
+                                <div class="info-box bg-yellow">
+                                    <span class="info-box-icon"><i class="fa fa-file"></i></span>
+
+                                    <div class="info-box-content">
+                                        <span class="info-box-number">Akta Nikah</span>
+                                        <span class="info-box-text" id="data_nikah">{!! $aktanikah_terpenuhi !!} dari {!! $total_penduduk !!}
+                                            Jiwa Terpenuhi</span>
+
+                                        <div class="progress">
+                                            <div id="nikah_persen" class="progress-bar" style="width: {!! $aktanikah_persen_terpenuhi !!}%"></div>
+                                        </div>
+                                        <span id="nikah_terpenuhi" class="progress-description">{!! $aktanikah_persen_terpenuhi !!}% Jiwa Tidak Terpenuhi</span>
+                                    </div>
+                                    <!-- /.info-box-content -->
+                                </div>
+                                <!-- /.info-box -->
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -201,6 +256,8 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // Jika menggunakan POST dan Laravel
                 }
             }).done(function(data) {
+                console.log(data);
+                
                 $('#total_penduduk').html(data.total_penduduk);
                 $('#total_lakilaki').html(data.total_lakilaki);
                 $('#total_perempuan').html(data.total_perempuan);
