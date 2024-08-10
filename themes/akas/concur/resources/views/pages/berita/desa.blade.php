@@ -3,6 +3,9 @@
 
 @push('styles')
 <style type="text/css">
+    .halaman-arsip {
+        margin: 0px 0;
+    }
     .box-header {
         padding: 10px;
         margin-bottom: -5px;
@@ -75,10 +78,8 @@
                 </div>
             </div>
 
-                    {{-- Widget --}}
-                    @include('layouts.widget')
-                </div>
-            </div>
+            {{-- Widget --}}
+            @include('layouts.widget')
         </div>
     </div>
 </div>
