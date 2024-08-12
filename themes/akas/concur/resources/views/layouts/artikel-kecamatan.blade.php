@@ -12,7 +12,7 @@
             <div class="icon-box">
                 <div class="gambar-index">
                     <a href="{{ url('berita/'.$value->slug) }}">
-                        <img src="{{ is_img($value->gambar) }}" class="img-fluid img-responsive img-article-list" alt="{{ $value->judul }}">
+                        <img src="{{ is_img($value->gambar) }}" class="img-fluid img-responsive img-article-list" alt="{{ $value->judul }}" style="width: 100%; height: 200px;">
                     </a>
                 </div>
                 <div class="meta-info">
@@ -28,7 +28,19 @@
                 <h4 class="title">
                     <b><a href="{{ url('berita/'.$value->slug) }}">{{ $value->judul }}</a></b>
                 </h4>
-                <p class="description">{!! Str::limit($value->isi, 200) !!}</p>
+                {{-- jika ada tag tidak tertutup, maka tutup dlu --}}
+                @php
+                    $content = Str::limit($value->isi, 150);
+                    
+                    if (extension_loaded('tidy')) {
+                        $tidy = new \tidy();
+                        $content = $tidy->repairString($content, [
+                            'output-xhtml' => true,
+                            'show-body-only' => true,
+                        ], 'utf8');
+                    }
+                @endphp
+                <p class="description">{!! $content !!}</p>
             </div>
             @endforeach
         </div>
