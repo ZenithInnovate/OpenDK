@@ -28,7 +28,6 @@
                 <h4 class="title">
                     <b><a href="{{ url('berita/'.$value->slug) }}">{{ $value->judul }}</a></b>
                 </h4>
-                @endphp
                 <p class="description">{!! __html(Str::limit($value->isi, 150)) !!}</p>
             </div>
             @endforeach
