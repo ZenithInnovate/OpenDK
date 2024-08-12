@@ -28,7 +28,6 @@
                 <h4 class="title">
                     <b><a href="{{ url('berita/'.$value->slug) }}">{{ $value->judul }}</a></b>
                 </h4>
-                {{-- jika ada tag tidak tertutup, maka tutup dlu --}}
                 @php
                     $content = Str::limit($value->isi, 150);
                     

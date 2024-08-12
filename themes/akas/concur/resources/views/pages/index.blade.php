@@ -37,9 +37,7 @@
                                         <div class="header hidden-xs">
                                             <a href="">Sambutan & Himbauan</a>
                                         </div>
-                                        <strong>12 Agustus 2024</strong> - Demi terciptanya kualitas pelayanan
-                                        publik yang cepat, dan efektif Desa kini menghadirkan aplikasi Smart&#8230;
-                                        <a href=""> selengkapnya</a>
+                                        {!! $profil->sambutan !!}
                                     </div>
                                 </div>
                             </div>
