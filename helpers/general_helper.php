@@ -513,3 +513,18 @@ if (! function_exists('getFeeds')) {
         });
     }
 }
+
+if (! function_exists('__html')) {
+    function __html($content)
+    {
+        if (extension_loaded('tidy')) {
+            $tidy = new \tidy();
+            $content = $tidy->repairString($content, [
+                'output-xhtml' => true,
+                'show-body-only' => true,
+            ], 'utf8');
+        }
+
+        return $content;
+    }
+}

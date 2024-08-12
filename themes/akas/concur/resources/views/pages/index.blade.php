@@ -35,9 +35,9 @@
                                 <div class="col-9">
                                     <div class="aka-sambutan">
                                         <div class="header hidden-xs">
-                                            <a href="">Sambutan & Himbauan</a>
+                                            <a href="{{ route('profil.sambutan') }}">{{ strtoupper('SAMBUTAN ' . $sebutan_kepala_wilayah . ' ' . $profil->nama_kecamatan) }}</a>
                                         </div>
-                                        {!! $profil->sambutan !!}
+                                        {!! __html(Str::limit($profil->sambutan, 150)) !!} <a href="{{ route('profil.sambutan') }}">Selengkapnya</a>
                                     </div>
                                 </div>
                             </div>

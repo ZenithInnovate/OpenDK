@@ -28,18 +28,8 @@
                 <h4 class="title">
                     <b><a href="{{ url('berita/'.$value->slug) }}">{{ $value->judul }}</a></b>
                 </h4>
-                @php
-                    $content = Str::limit($value->isi, 150);
-                    
-                    if (extension_loaded('tidy')) {
-                        $tidy = new \tidy();
-                        $content = $tidy->repairString($content, [
-                            'output-xhtml' => true,
-                            'show-body-only' => true,
-                        ], 'utf8');
-                    }
                 @endphp
-                <p class="description">{!! $content !!}</p>
+                <p class="description">{!! __html(Str::limit($value->isi, 150)) !!}</p>
             </div>
             @endforeach
         </div>
