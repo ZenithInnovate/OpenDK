@@ -7,7 +7,14 @@
 <main id="main">
     <div class="desa-aka">
         <div class="aka-header">
-            <span class="aka-title">{{ config('setting.judul_aplikasi') . ' - ' . $sebutan_wilayah . ' ' . $profil->nama_kecamatan }}</span>
+            <div class="row">
+                <div class="col-3"></div>
+                <div class="col-6">
+                    <div class="aka-title">{{ $sebutan_wilayah . ' ' . $profil->nama_kecamatan }}
+                    </div>
+                </div>
+                <div class="col-3"></div>
+            </div>
         </div>
         <div class="container align-items-center">
             <div class="aka-box">
@@ -28,15 +35,11 @@
                                 <div class="col-9">
                                     <div class="aka-sambutan">
                                         <div class="header hidden-xs">
-                                            <a
-                                                href="https://demo.smartdesadigital.id/berita/kategori/sambutan-dan-himbauan">Sambutan
-                                                & Himbauan</a>
+                                            <a href="">Sambutan & Himbauan</a>
                                         </div>
-                                        <strong>30 September 2021</strong> - Demi terciptanya kualitas pelayanan
+                                        <strong>12 Agustus 2024</strong> - Demi terciptanya kualitas pelayanan
                                         publik yang cepat, dan efektif Desa kini menghadirkan aplikasi Smart&#8230;
-                                        <a
-                                            href="https://demo.smartdesadigital.id/berita/detail/sambutan-dan-himbauan/smart-desa-digital-demi-kemajuan-desa">
-                                            selengkapnya</a>
+                                        <a href=""> selengkapnya</a>
                                     </div>
                                 </div>
                             </div>
