@@ -33,6 +33,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Event;
 use App\Models\Slide;
+use App\Models\Artikel;
+use App\Models\Pengurus;
 use App\Models\Navigation;
 use App\Models\MediaSosial;
 use App\Models\SinergiProgram;
@@ -49,6 +51,7 @@ class FrontEndController extends Controller
             'events' => Event::getOpenEvents(),
             'medsos' => MediaSosial::where('status', 1)->get(),
             'navigations' => Navigation::with('childrens')->whereNull('parent_id')->where('status', 1)->orderBy('order', 'asc')->get(),
+            'perangkat_kecamatan' => Pengurus::where('status', 1)->get(),
             'sinergi' => SinergiProgram::where('status', 1)->orderBy('urutan', 'asc')->get(),
             'slides' => Slide::orderBy('created_at', 'DESC')->get(),
         ]);

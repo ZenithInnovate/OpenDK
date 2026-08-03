@@ -47,8 +47,8 @@ class DasNavigationTableSeeder extends Seeder
     {
         DB::table('das_navigation')->delete();
 
-        // insert parents
-        DB::table('das_navigation')->insert([
+        // Menu Utama
+        $menu = [
             [
                 'name' => 'Beranda',
                 'slug' => Str::slug('Beranda'),
@@ -113,10 +113,21 @@ class DasNavigationTableSeeder extends Seeder
                 'order' => 8,
                 'status' => 1,
             ],
-        ]);
+        ];
 
-        // insert childs
-        DB::table('das_navigation')->insert([
+        DB::table('das_navigation')->insert($menu);
+
+        // Submenu
+        $submenu = [
+            [
+                'parent_id' => Navigation::where('slug', 'profil')->first()->id,
+                'name' => 'Tipologi',
+                'slug' => 'profil-tipologi',
+                'nav_type' => 'system',
+                'url' => '/profil/tipologi',
+                'order' => 1,
+                'status' => 1,
+            ],
             [
                 'parent_id' => Navigation::where('slug', 'profil')->first()->id,
                 'name' => 'Sejarah',
@@ -146,10 +157,10 @@ class DasNavigationTableSeeder extends Seeder
             ],
             [
                 'parent_id' => Navigation::where('slug', 'profil')->first()->id,
-                'name' => 'Visi & Misi',
-                'slug' => 'profil-visi-misi',
+                'name' => 'Visi dan Misi',
+                'slug' => 'profil-visi-dan-misi',
                 'nav_type' => 'system',
-                'url' => '/profil/visi-misi',
+                'url' => '/profil/visi-dan-misi',
                 'order' => 4,
                 'status' => 1,
             ],
@@ -234,6 +245,34 @@ class DasNavigationTableSeeder extends Seeder
                 'order' => 3,
                 'status' => 1,
             ]
-        ]);
+        ];
+
+        DB::table('das_data_desa')->get()->each(function ($data) use (&$submenu) {
+            $submenu[] = [
+                'parent_id' => Navigation::where('slug', 'desa')->first()->id,
+                'name' => ucwords($data->sebutan_desa . ' ' . $data->nama),
+                'slug' => 'desa-'. Str::slug($data->nama),
+                'nav_type' => 'system',
+                'url' => '/desa/' . 'desa-'. Str::slug($data->nama),
+                'order' => 1,
+                'status' => 1,
+            ];
+        });
+
+        // potensi
+        DB::table('das_potensi')->get()->each(function ($data) use (&$submenu) {
+            $kategori = DB::table('das_tipe_potensi')->where('id', $data->kategori_id)->first()->slug;
+            $submenu[] = [
+                'parent_id' => Navigation::where('slug', 'potensi')->first()->id,
+                'name' => ucwords($data->nama_potensi),
+                'slug' => 'potensi-'. Str::slug($data->nama_potensi),
+                'nav_type' => 'system',
+                'url' => '/' . $kategori . '/' . Str::slug($data->nama_potensi),
+                'order' => 1,
+                'status' => 1,
+            ];
+        });
+
+        DB::table('das_navigation')->insert($submenu);
     }
 }

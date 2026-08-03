@@ -1,0 +1,20 @@
+{
+    "name": "akas/concur",
+    "description": "Tema Ubahan dari tema Concur",
+    "type": "laravel-theme",
+    "version": "1.0.0",
+    "minimum-stability": "stable",
+    "authors": [
+        {
+            "name": "Andi Fahruddin Akas",
+            "email": "andifahruddinakas@gmail.com"
+        }
+    ],
+    "extra": {
+        "theme": {
+            "parent": "",
+            "active": true,
+            "screenshot": "screenshot.png"
+        }
+    }
+}

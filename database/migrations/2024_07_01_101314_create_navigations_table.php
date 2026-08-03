@@ -56,7 +56,7 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        Artisan::call('db:seed', ['--class' => 'DasNavigationTableSeeder']);
+        Artisan::call('db:seed', ['--class' => 'DasNavigationTableSeeder', '--force' => true]);
     }
 
     /**
